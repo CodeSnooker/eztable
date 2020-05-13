@@ -123,6 +123,50 @@
           }
         }
       }
-    }},
-  "defaultProject": "eztable-proj"
+    },
+    "@codesnooker/eztable": {
+      "projectType": "library",
+      "root": "projects/codesnooker/eztable",
+      "sourceRoot": "projects/codesnooker/eztable/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-ng-packagr:build",
+          "options": {
+            "tsConfig": "projects/codesnooker/eztable/tsconfig.lib.json",
+            "project": "projects/codesnooker/eztable/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/codesnooker/eztable/tsconfig.lib.prod.json"
+            }
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/codesnooker/eztable/src/test.ts",
+            "tsConfig": "projects/codesnooker/eztable/tsconfig.spec.json",
+            "karmaConfig": "projects/codesnooker/eztable/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/codesnooker/eztable/tsconfig.lib.json",
+              "projects/codesnooker/eztable/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
+    }
+  },
+  "defaultProject": "eztable-proj",
+  "cli": {
+    "analytics": false
+  }
 }

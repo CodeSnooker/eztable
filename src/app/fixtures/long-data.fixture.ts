@@ -1,0 +1,48 @@
+import { ILongData } from "../interfaces";
+
+export const LONG_DATA: ILongData[] = [
+  {
+    h1: "Cell",
+    h2: "Cell",
+    h3: "Cell",
+    h4: "Cell",
+    h5: "Cell",
+    h6: "Cell",
+    h7: "Cell",
+    h8: "Cell",
+    h9: "Cell",
+  },
+  {
+    h1: "Bell",
+    h2: "Bell",
+    h3: "Bell",
+    h4: "Bell",
+    h5: "Bell",
+    h6: "Bell",
+    h7: "Bell",
+    h8: "Bell",
+    h9: "Bell",
+  },
+  {
+    h1: "Tail",
+    h2: "Tail",
+    h3: "Tail",
+    h4: "Tail",
+    h5: "Tail",
+    h6: "Tail",
+    h7: "Tail",
+    h8: "Tail",
+    h9: "Tail",
+  },
+  {
+    h1: "Game",
+    h2: "Game",
+    h3: "Game",
+    h4: "Game",
+    h5: "Game",
+    h6: "Game",
+    h7: "Game",
+    h8: "Game",
+    h9: "Game",
+  },
+];

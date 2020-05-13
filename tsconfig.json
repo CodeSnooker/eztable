@@ -14,7 +14,13 @@
     "lib": [
       "es2018",
       "dom"
-    ]
+    ],
+    "paths": {
+      "@codesnooker/eztable": [
+        "dist/codesnooker/eztable/codesnooker-eztable",
+        "dist/codesnooker/eztable"
+      ]
+    }
   },
   "angularCompilerOptions": {
     "fullTemplateTypeCheck": true,
