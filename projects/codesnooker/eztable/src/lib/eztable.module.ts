@@ -14,5 +14,6 @@ import { SimpleRowComponent } from './simple-row/simple-row.component';
   ],
   imports: [CommonModule],
   exports: [EztableComponent, SimpleRowComponent],
+  entryComponents: [SimpleRowComponent],
 })
 export class EztableModule {}
