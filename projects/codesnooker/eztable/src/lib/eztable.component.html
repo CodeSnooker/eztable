@@ -1,18 +1,13 @@
 <table class="table">
   <thead>
-    <tr>
-      <th *ngFor="let item of headers" class="capitalize">
-        {{ item.value || item | smartCase }}
-      </th>
-    </tr>
+    <tr
+      ez-header
+      [data]="headers"
+      [options]="options"
+      (sort)="sortBy($event)"
+    ></tr>
   </thead>
   <tbody>
     <ng-template *ngFor="let d of data" libRowHost></ng-template>
-    <!-- <tr
-      ez-simple-row
-      *ngFor="let d of data"
-      [data]="d"
-      [headers]="headers"
-    ></tr> -->
   </tbody>
 </table>

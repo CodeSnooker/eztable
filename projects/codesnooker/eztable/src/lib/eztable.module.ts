@@ -4,6 +4,7 @@ import { RowHostDirective } from './directives/row-host.directive';
 import { EztableComponent } from './eztable.component';
 import { SmartCasePipe } from './pipes/smart-case.pipe';
 import { SimpleRowComponent } from './simple-row/simple-row.component';
+import { EzHeaderComponent } from './ez-header/ez-header.component';
 
 @NgModule({
   declarations: [
@@ -11,6 +12,7 @@ import { SimpleRowComponent } from './simple-row/simple-row.component';
     SimpleRowComponent,
     SmartCasePipe,
     RowHostDirective,
+    EzHeaderComponent,
   ],
   imports: [CommonModule],
   exports: [EztableComponent, SimpleRowComponent],

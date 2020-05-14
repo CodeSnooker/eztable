@@ -12,31 +12,10 @@
   <!-- 2. Custom Headers -->
   <div class="row">
     <div class="col-sm-6">
-      <div class="card">
-        <div class="card-header">
-          <h5 class="card-title">1. EzTable</h5>
-          <h6 class="card-subtitle text-muted">
-            Use
-            <code>&lt;eztable [data]="myJSONArray"&gt; &lt;/eztable&gt;</code>
-            to create bootstrap table and provide
-            <i>(array of json data) </i> <code>data</code> to automatically
-            create the headers and rows.
-          </h6>
-        </div>
-        <eztable [data]="userData"> </eztable>
-      </div>
+      <app-intro></app-intro>
     </div>
     <div class="col-sm-6">
-      <div class="card">
-        <div class="card-header">
-          <h5 class="card-title">2. Table with custom headers</h5>
-          <h6 class="card-subtitle text-muted">
-            use <code>headers</code> with key-value pair to provide the custom
-            headers. Keys should be same as of keys of row's data.
-          </h6>
-        </div>
-        <eztable [headers]="customHeaders" [data]="userData"> </eztable>
-      </div>
+      <app-custom-headers></app-custom-headers>
     </div>
   </div>
 
@@ -44,29 +23,10 @@
   <!-- 4. Condensed Table -->
   <div class="row">
     <div class="col-sm-6">
-      <div class="card">
-        <div class="card-header">
-          <h5 class="card-title">3. EzTable - Striped Rows</h5>
-          <h6 class="card-subtitle text-muted">
-            Use class <code>table-striped</code> to add zebra-striping to the
-            table row within the <code>&lt;tbody&gt;</code>.
-          </h6>
-        </div>
-        <eztable class="table-striped" [data]="userData"> </eztable>
-      </div>
+      <app-striped-rows></app-striped-rows>
     </div>
     <div class="col-sm-6">
-      <div class="card">
-        <div class="card-header">
-          <h5 class="card-title">4. Condensed Table</h5>
-          <h6 class="card-subtitle text-muted">
-            use <code>table-sm</code> to make tables more compact by cutting
-            cell padding in half.
-          </h6>
-        </div>
-        <eztable class="table-sm" [headers]="customHeaders" [data]="userData">
-        </eztable>
-      </div>
+      <app-condensed-table></app-condensed-table>
     </div>
   </div>
 
@@ -74,54 +34,17 @@
   <!-- 6. Bordered Table -->
   <div class="row">
     <div class="col-sm-6">
-      <div class="card">
-        <div class="card-header">
-          <h5 class="card-title">5. Hoverable Table</h5>
-          <h6 class="card-subtitle text-muted">
-            Use class <code>table-hover</code> to enable a hover state on table
-            rows within a <code>&lt;tbody&gt;</code>.
-          </h6>
-        </div>
-        <eztable class="table-striped table-hover" [data]="userData"> </eztable>
-      </div>
+      <app-hoverable-table></app-hoverable-table>
     </div>
     <div class="col-sm-6">
-      <div class="card">
-        <div class="card-header">
-          <h5 class="card-title">6. Bordered Table</h5>
-          <h6 class="card-subtitle text-muted">
-            use <code>table-bordered</code> to make tables more compact by
-            cutting cell padding in half.
-          </h6>
-        </div>
-        <eztable
-          class="table-bordered"
-          [headers]="customHeaders"
-          [data]="userData"
-        >
-        </eztable>
-      </div>
+      <app-bordered-table></app-bordered-table>
     </div>
   </div>
 
   <!-- 7. Responsive Table -->
   <div class="row">
     <div class="col-sm-12">
-      <div class="card">
-        <div class="card-header">
-          <h5 class="card-title">7. Always responsive</h5>
-          <h6 class="card-subtitle text-muted">
-            Use <code>table-responsive</code> class for horizontally scrolling
-            tables.
-          </h6>
-        </div>
-        <eztable
-          class="table-responsive"
-          [data]="longData"
-          [headers]="longDataHeaders"
-        >
-        </eztable>
-      </div>
+      <app-always-responsive-table></app-always-responsive-table>
     </div>
   </div>
 
@@ -129,36 +52,27 @@
   <!-- 9. Custom Row Component (As external component class) -->
   <div class="row">
     <div class="col-sm-6">
-      <div class="card">
-        <div class="card-header">
-          <h5 class="card-title">8. EzTable - Sortable</h5>
-          <h6 class="card-subtitle text-muted">
-            Use
-            <code>&lt;eztable [data]="myJSONArray"&gt; &lt;/eztable&gt;</code>
-            to create bootstrap table and provide data
-            <i>(array of json data)</i> <code>&lt;data&gt;</code> to
-            automatically create the headers and rows.
-          </h6>
-        </div>
-        <eztable [data]="userData"> </eztable>
-      </div>
+      <app-custom-row-component></app-custom-row-component>
     </div>
     <div class="col-sm-6">
-      <div class="card">
-        <div class="card-header">
-          <h5 class="card-title">9. EzTable - Custom Row Component</h5>
-          <h6 class="card-subtitle text-muted">
-            use <code>headers</code> with key-value pair to provide the custom
-            headers. Keys should be same as of keys of row's data.
-          </h6>
-        </div>
-        <eztable
-          [headers]="customHeaders"
-          [data]="userData"
-          [rowClass]="sampleRow"
-        >
-        </eztable>
-      </div>
+      <app-sortable-table></app-sortable-table>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-6">
+      <app-disable-sorting></app-disable-sorting>
+    </div>
+    <div class="col-sm-6">
+      <app-pre-sorted></app-pre-sorted>
+    </div>
+    <div class="col-sm-6">
+      <app-pre-sorted-using-table-column></app-pre-sorted-using-table-column>
+    </div>
+    <div class="col-sm-6">
+      <app-disable-sort-on-column></app-disable-sort-on-column>
+    </div>
+    <div class="col-sm-6">
+      <app-disable-sort-with-pre-sort-column></app-disable-sort-with-pre-sort-column>
     </div>
   </div>
   <!-- 10. Pagination -->

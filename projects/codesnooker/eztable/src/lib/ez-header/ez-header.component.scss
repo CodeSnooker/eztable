@@ -1,0 +1,58 @@
+$UP_ARROW: "\2191";
+$DOWN_ARROW: "\2193";
+$LOCK_ICON: "\1F512";
+$FADED_OPACITY: 0.2;
+$ICON_MARGIN: 3.5px;
+
+.capitalize {
+  text-transform: capitalize;
+}
+
+th.sortable {
+  cursor: pointer;
+}
+
+th .caret-4-asc:before {
+  margin-left: $ICON_MARGIN;
+  content: $UP_ARROW;
+}
+
+th .caret-4-asc:after {
+  content: $DOWN_ARROW;
+  opacity: $FADED_OPACITY;
+}
+
+th .caret-4-desc:before {
+  margin-left: $ICON_MARGIN;
+  content: $UP_ARROW;
+  opacity: $FADED_OPACITY;
+}
+
+th .caret-4-desc:after {
+  content: $DOWN_ARROW;
+}
+
+th .order-4:before {
+  margin-left: $ICON_MARGIN;
+  content: $UP_ARROW;
+  opacity: $FADED_OPACITY;
+}
+
+th .order-4:after {
+  content: $DOWN_ARROW;
+  opacity: $FADED_OPACITY;
+}
+
+th .lock:after {
+  content: $LOCK_ICON;
+}
+
+.noselect {
+  -webkit-touch-callout: none; /* iOS Safari */
+  -webkit-user-select: none; /* Safari */
+  -khtml-user-select: none; /* Konqueror HTML */
+  -moz-user-select: none; /* Old versions of Firefox */
+  -ms-user-select: none; /* Internet Explorer/Edge */
+  user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome, Edge, Opera and Firefox */
+}

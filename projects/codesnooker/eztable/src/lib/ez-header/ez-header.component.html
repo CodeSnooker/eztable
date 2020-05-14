@@ -1,0 +1,13 @@
+<!-- <th *ngFor="let item of usableHeaders"> -->
+<!-- {{ item | json }} -->
+
+<th
+  *ngFor="let item of usableHeaders; let i = index"
+  class="capitalize sortable noselect"
+  (click)="sortBy(item.key, i)"
+>
+  {{ item.value | smartCase }}
+  <span [class]="item.clazz"></span>
+</th>
+
+<!-- </th> -->
