@@ -8,11 +8,11 @@ import {
   ViewChildren,
 } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
-import { SimpleRowComponent } from '../public-api';
 import { RowHostDirective } from './directives/row-host.directive';
 import { SortEvent } from './interfaces/sort-event.interface';
 import { ITableColumn } from './interfaces/table-column.interface';
 import { ITableOptions } from './interfaces/table-options.interface';
+import { SimpleRowComponent } from './simple-row/simple-row.component';
 import { SortDirection } from './types/sort-direction.enum';
 
 type HeaderType = ITableColumn<any> | string;
