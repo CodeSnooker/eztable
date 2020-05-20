@@ -1,21 +1,14 @@
-import { SortDirection } from '../types/sort-direction.enum';
+import { ITablePaginationOptions } from './table-pagination-options.interface';
+import { ITableSortOptions } from './table-sort-options.interface';
 
 export interface ITableOptions {
-  sorting?: {
-    disabled?: boolean;
-    byKey?: string;
-    direction?: SortDirection;
-  };
+  sorting?: ITableSortOptions;
 
   // Not supported yet
   selectable?: boolean;
   multiSelect?: boolean;
 
-  pagination?: {
-    enabled: boolean;
-    pageSize?: number;
-    index?: number;
-  };
+  pagination?: ITablePaginationOptions;
 
   exportable?: boolean;
   expandable?: boolean;

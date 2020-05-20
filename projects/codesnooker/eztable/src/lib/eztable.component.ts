@@ -29,6 +29,9 @@ export class EztableComponent implements OnInit, AfterViewInit {
   // tslint:disable-next-line: variable-name
   private _headerKeys: string[];
 
+  // tslint:disable-next-line: variable-name
+  private _viewInit = false;
+
   usableHeaders: ITableColumn<any>[];
   @ViewChildren(RowHostDirective) rowHosts: QueryList<RowHostDirective>;
 
@@ -39,18 +42,25 @@ export class EztableComponent implements OnInit, AfterViewInit {
   @Input() set data(value: any[]) {
     // console.log('#input');
     this._data = value;
-    if (!this.headers) {
+    if (!this.headers || this.headers.length === 0) {
       this.headers = Object.keys(value[0] || {});
       this._headerKeys = Object.keys(value[0] || {});
     } else {
       const check = (p: any): p is ITableColumn<any> => p.hasOwnProperty('key');
-      if (check) {
+      if (check(this.headers)) {
         this._headerKeys = (this.headers as ITableColumn<any>[]).map(
           (d) => d.key
         );
       } else {
         this._headerKeys = Object.keys(value[0] || {});
       }
+    }
+
+    if (this._viewInit) {
+      setTimeout(() => {
+        this.loadRows();
+        this._viewInit = true;
+      }, 10);
     }
   }
 
@@ -69,6 +79,7 @@ export class EztableComponent implements OnInit, AfterViewInit {
     if (this.data && this.rowHosts) {
       setTimeout(() => {
         this.loadRows();
+        this._viewInit = true;
       });
     }
   }
