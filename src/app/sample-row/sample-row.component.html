@@ -2,6 +2,8 @@
   {{ data.name }}
 </td>
 <td class="text-secondary">
-  {{ data.dateOfBirth }}
+  <span class="badge badge-pill badge-success">
+    {{ data.dateOfBirth | date }}
+  </span>
 </td>
 <td class="text-danger">{{ data.phoneNumber }}</td>

@@ -7,6 +7,7 @@ import {
   QueryList,
   ViewChildren,
 } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { SimpleRowComponent } from '../public-api';
 import { RowHostDirective } from './directives/row-host.directive';
 import { SortEvent } from './interfaces/sort-event.interface';
@@ -38,10 +39,16 @@ export class EztableComponent implements OnInit, AfterViewInit {
   @Input() headers: Array<HeaderType>;
   @Input() rowClass: typeof SimpleRowComponent;
   @Input() options: ITableOptions;
+  @Input() enableSearch: boolean;
+  @Input() searchPlaceholder = '';
+
+  filteredData: any[];
+  searchForm: FormGroup;
 
   @Input() set data(value: any[]) {
     // console.log('#input');
     this._data = value;
+    this.filteredData = value;
     if (!this.headers || this.headers.length === 0) {
       this.headers = Object.keys(value[0] || {});
       this._headerKeys = Object.keys(value[0] || {});
@@ -68,7 +75,14 @@ export class EztableComponent implements OnInit, AfterViewInit {
     return this._data;
   }
 
-  constructor(private cfr: ComponentFactoryResolver) {}
+  constructor(
+    private cfr: ComponentFactoryResolver,
+    private readonly formBuilder: FormBuilder
+  ) {
+    this.searchForm = this.formBuilder.group({
+      searchValue: new FormControl(undefined),
+    });
+  }
 
   ngOnInit(): void {
     // console.log('#ngOnInit');
@@ -79,9 +93,33 @@ export class EztableComponent implements OnInit, AfterViewInit {
     if (this.data && this.rowHosts) {
       setTimeout(() => {
         this.loadRows();
+        this.registerForSearchChange();
         this._viewInit = true;
       });
     }
+  }
+
+  private registerForSearchChange() {
+    this.searchForm.get('searchValue').valueChanges.subscribe((val: string) => {
+      console.log(val);
+      const lVal: string = val.toLowerCase();
+
+      if (val && val.length > 0) {
+        this.filteredData = this.data.filter((r) => {
+          const values: any[] = Object.values(r);
+          return values.some((v) => {
+            const t: string = v.toString().toLowerCase();
+            return t.indexOf(lVal) >= 0;
+          });
+        });
+      } else {
+        console.log('Reloading rows');
+        this.filteredData = this.data;
+        setTimeout(() => {
+          this.loadRows();
+        });
+      }
+    });
   }
 
   private loadRows() {
@@ -100,16 +138,33 @@ export class EztableComponent implements OnInit, AfterViewInit {
     });
   }
 
+  private isValidDate(value) {
+    const dateWrapper = new Date(value);
+    return !isNaN(dateWrapper.getDate());
+  }
+
   /**
    * Performs the sorting on the dataset based on key and direction specified in the event
    */
   sortBy({ key, direction }: SortEvent) {
-    const compare = (v1: string, v2: string) =>
+    const compare = (v1: string | number, v2: string | number) =>
       v1 < v2 ? -1 : v1 > v2 ? 1 : 0;
 
-    this.data.sort((a, b) => {
-      const res = compare(`${a[key]}`, `${b[key]}`);
-      return direction === SortDirection.ASCENDING ? res : -res;
+    console.log('sortBy');
+    this.filteredData.sort((a, b) => {
+      if (Number.isFinite(a[key]) && Number.isFinite(b[key])) {
+        const res = compare(a[key], b[key]);
+        return direction === SortDirection.ASCENDING ? res : -res;
+      } else if (this.isValidDate(a[key]) && this.isValidDate(b[key])) {
+        const res = compare(
+          new Date(a[key]).getTime(),
+          new Date(b[key]).getTime()
+        );
+        return direction === SortDirection.ASCENDING ? res : -res;
+      } else {
+        const res = compare(`${a[key]}`, `${b[key]}`);
+        return direction === SortDirection.ASCENDING ? res : -res;
+      }
     });
   }
 }

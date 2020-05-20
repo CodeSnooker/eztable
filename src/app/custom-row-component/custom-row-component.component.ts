@@ -8,7 +8,12 @@ import { SampleRowComponent } from '../sample-row/sample-row.component';
   styleUrls: ['./custom-row-component.component.scss'],
 })
 export class CustomRowComponentComponent implements OnInit {
-  userData = [...USER_DATA];
+  userData = [...USER_DATA].map((d) => {
+    return Object.assign({}, d, {
+      dateOfBirth: new Date(d.dateOfBirth).getTime(),
+      // new Date(d.dateOfBirth).getTime() - new Date('1900-Jan-01').getTime(),
+    });
+  });
   sampleRow = SampleRowComponent;
   constructor() {}
 

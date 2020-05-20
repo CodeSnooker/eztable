@@ -1,10 +1,11 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RowHostDirective } from './directives/row-host.directive';
+import { EzHeaderComponent } from './ez-header/ez-header.component';
 import { EztableComponent } from './eztable.component';
 import { SmartCasePipe } from './pipes/smart-case.pipe';
 import { SimpleRowComponent } from './simple-row/simple-row.component';
-import { EzHeaderComponent } from './ez-header/ez-header.component';
 
 @NgModule({
   declarations: [
@@ -14,7 +15,7 @@ import { EzHeaderComponent } from './ez-header/ez-header.component';
     RowHostDirective,
     EzHeaderComponent,
   ],
-  imports: [CommonModule],
+  imports: [CommonModule, FormsModule, ReactiveFormsModule],
   exports: [EztableComponent, SimpleRowComponent],
   entryComponents: [SimpleRowComponent],
 })

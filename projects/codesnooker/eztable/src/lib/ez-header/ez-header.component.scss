@@ -9,7 +9,7 @@ $ICON_MARGIN: 3.5px;
 }
 
 th.sortable {
-  cursor: pointer;
+  cursor: pointer !important;
 }
 
 th .caret-4-asc:before {
