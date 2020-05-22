@@ -49,6 +49,11 @@ export class EztableComponent implements OnInit, AfterViewInit {
     // console.log('#input');
     this._data = value;
     this.filteredData = value;
+
+    // if (!value || value.length === 0) {
+    //   return;
+    // }
+
     if (!this.headers || this.headers.length === 0) {
       this.headers = Object.keys(value[0] || {});
       this._headerKeys = Object.keys(value[0] || {});
@@ -89,7 +94,7 @@ export class EztableComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    // console.log('#ngAfterViewInit');
+    console.log('#ngAfterViewInit');
     if (this.data && this.rowHosts) {
       setTimeout(() => {
         this.loadRows();
@@ -123,7 +128,7 @@ export class EztableComponent implements OnInit, AfterViewInit {
   }
 
   private loadRows() {
-    // console.log(this._data[0]);
+    console.log('#loadRows');
     const componentFactory = this.cfr.resolveComponentFactory(
       this.rowClass || SimpleRowComponent
     );
