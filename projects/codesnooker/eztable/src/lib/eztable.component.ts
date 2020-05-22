@@ -113,8 +113,12 @@ export class EztableComponent implements OnInit, AfterViewInit {
         this.filteredData = this.data.filter((r) => {
           const values: any[] = Object.values(r);
           return values.some((v) => {
-            const t: string = v.toString().toLowerCase();
-            return t.indexOf(lVal) >= 0;
+            if (v) {
+              const t: string = v.toString().toLowerCase();
+              return t.indexOf(lVal) >= 0;
+            } else {
+              return false;
+            }
           });
         });
       } else {
