@@ -7,10 +7,13 @@
       search box table.
     </h6>
   </div>
-  <eztable
-    [data]="userData"
-    enableSearch="true"
-    searchPlaceholder="You can search by name, birthday or phone number"
-  >
-  </eztable>
+  <div class="card-body bg-primary">
+    <eztable
+      class="bg-primary table-striped"
+      [data]="userData"
+      enableSearch="true"
+      searchPlaceholder="You can search by name, birthday or phone number"
+    >
+    </eztable>
+  </div>
 </div>

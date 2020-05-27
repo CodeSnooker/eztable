@@ -46,3 +46,11 @@ th .order-4:after {
 th .lock:after {
   content: $LOCK_ICON;
 }
+
+table {
+  background-color: white !important;
+}
+
+input.form-control {
+  border: 0px;
+}
