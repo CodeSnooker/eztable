@@ -7,7 +7,11 @@ import { USER_DATA } from '../fixtures';
   styleUrls: ['./searchable-table.component.scss'],
 })
 export class SearchableTableComponent implements OnInit {
-  userData = [...USER_DATA];
+  userData = [];
   constructor() {}
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    setTimeout(() => {
+      this.userData = [...USER_DATA, ...USER_DATA, ...USER_DATA];
+    }, 20);
+  }
 }

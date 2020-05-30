@@ -33,6 +33,9 @@ export class EztableComponent implements OnInit, AfterViewInit {
   // tslint:disable-next-line: variable-name
   private _viewInit = false;
 
+  // tslint:disable-next-line: variable-name
+  private _readyToReload = false;
+
   usableHeaders: ITableColumn<any>[];
   @ViewChildren(RowHostDirective) rowHosts: QueryList<RowHostDirective>;
 
@@ -41,6 +44,7 @@ export class EztableComponent implements OnInit, AfterViewInit {
   @Input() options: ITableOptions;
   @Input() enableSearch: boolean;
   @Input() searchPlaceholder = '';
+  @Input() height = '100%';
 
   filteredData: any[];
   searchForm: FormGroup;
@@ -59,7 +63,7 @@ export class EztableComponent implements OnInit, AfterViewInit {
       this._headerKeys = Object.keys(value[0] || {});
     } else {
       const check = (p: any): p is ITableColumn<any> => p.hasOwnProperty('key');
-      if (check(this.headers)) {
+      if (check(this.headers[0])) {
         this._headerKeys = (this.headers as ITableColumn<any>[]).map(
           (d) => d.key
         );
@@ -110,9 +114,9 @@ export class EztableComponent implements OnInit, AfterViewInit {
       const lVal: string = val.toLowerCase();
 
       if (val && val.length > 0) {
-        this.filteredData = this.data.filter((r) => {
+        this.filteredData = this.data.filter((r, i) => {
           const values: any[] = Object.values(r);
-          return values.some((v) => {
+          const searchResult = values.some((v) => {
             if (v) {
               const t: string = v.toString().toLowerCase();
               return t.indexOf(lVal) >= 0;
@@ -120,10 +124,31 @@ export class EztableComponent implements OnInit, AfterViewInit {
               return false;
             }
           });
+          console.log(
+            'looking in index => ',
+            i,
+            ', search result => ',
+            searchResult
+          );
+          return searchResult;
         });
+
+        console.log(this.filteredData);
+        setTimeout(() => {
+          this.loadRows();
+        });
+        if (!this.filteredData || this.filteredData.length === 0) {
+          this._readyToReload = true;
+        } else if (this.filteredData.length > 0 && this._readyToReload) {
+          this._readyToReload = false;
+          setTimeout(() => {
+            this.loadRows();
+          });
+        }
       } else {
         console.log('Reloading rows');
         this.filteredData = this.data;
+        this._readyToReload = false;
         setTimeout(() => {
           this.loadRows();
         });
@@ -142,7 +167,7 @@ export class EztableComponent implements OnInit, AfterViewInit {
       viewContainerRef.clear();
 
       const componentRef = viewContainerRef.createComponent(componentFactory);
-      componentRef.instance.data = this.data[index];
+      componentRef.instance.data = this.filteredData[index];
       componentRef.instance.headers = this._headerKeys;
     });
   }

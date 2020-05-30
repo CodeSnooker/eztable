@@ -49,8 +49,11 @@ th .lock:after {
 
 table {
   background-color: white !important;
+  border-radius: 5px;
 }
 
 input.form-control {
   border: 0px;
+  margin-bottom: 16px !important;
+  height: 40px;
 }
