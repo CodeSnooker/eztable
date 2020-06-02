@@ -2,8 +2,10 @@ import {
   AfterViewInit,
   Component,
   ComponentFactoryResolver,
+  EventEmitter,
   Input,
   OnInit,
+  Output,
   QueryList,
   ViewChildren,
 } from '@angular/core';
@@ -11,7 +13,10 @@ import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { RowHostDirective } from './directives/row-host.directive';
 import { SortEvent } from './interfaces/sort-event.interface';
 import { ITableColumn } from './interfaces/table-column.interface';
-import { ITableOptions } from './interfaces/table-options.interface';
+import {
+  DEFAULT_TABLE_OPTIONS,
+  ITableOptions,
+} from './interfaces/table-options.interface';
 import { SimpleRowComponent } from './simple-row/simple-row.component';
 import { SortDirection } from './types/sort-direction.enum';
 
@@ -26,6 +31,8 @@ type HeaderType = ITableColumn<any> | string;
 export class EztableComponent implements OnInit, AfterViewInit {
   // tslint:disable-next-line: variable-name
   private _data: any[];
+  // tslint:disable-next-line: variable-name
+  _options: ITableOptions = DEFAULT_TABLE_OPTIONS;
 
   // tslint:disable-next-line: variable-name
   private _headerKeys: string[];
@@ -41,13 +48,18 @@ export class EztableComponent implements OnInit, AfterViewInit {
 
   @Input() headers: Array<HeaderType>;
   @Input() rowClass: typeof SimpleRowComponent;
-  @Input() options: ITableOptions;
   @Input() enableSearch: boolean;
   @Input() searchPlaceholder = '';
+  @Input() loading = false;
   @Input() height = '100%';
+  @Output() cancelUpdate = new EventEmitter();
 
   filteredData: any[];
   searchForm: FormGroup;
+
+  @Input() set options(value: ITableOptions) {
+    this._options = Object.assign({}, DEFAULT_TABLE_OPTIONS, value);
+  }
 
   @Input() set data(value: any[]) {
     // console.log('#input');
@@ -106,6 +118,10 @@ export class EztableComponent implements OnInit, AfterViewInit {
         this._viewInit = true;
       });
     }
+  }
+
+  onCancelUpdate() {
+    this.cancelUpdate.emit();
   }
 
   private registerForSearchChange() {

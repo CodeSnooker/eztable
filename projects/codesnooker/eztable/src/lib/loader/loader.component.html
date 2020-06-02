@@ -1,0 +1,15 @@
+<div class="loader-body">
+  <div class="loader-spinner">
+    <div class="spinner-border text-light" role="status">
+      <span class="sr-only">Loading...</span>
+    </div>
+  </div>
+  <div class="loader-text text-light">
+    {{ message }}
+    <div *ngIf="showCancelBtn">
+      <button class="btn btn-outline-danger mt-3" (click)="onCancelUpdate()">
+        {{ cancelBtnText }}
+      </button>
+    </div>
+  </div>
+</div>

@@ -12,4 +12,13 @@ export interface ITableOptions {
 
   exportable?: boolean;
   expandable?: boolean;
+  loadingMessage?: string;
+  showCancelBtn?: boolean;
+  cancelBtnText?: string;
 }
+
+export const DEFAULT_TABLE_OPTIONS: ITableOptions = {
+  loadingMessage: 'Updating...',
+  showCancelBtn: false,
+  cancelBtnText: 'Cancel Update',
+};

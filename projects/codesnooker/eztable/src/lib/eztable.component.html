@@ -1,21 +1,32 @@
-<form *ngIf="enableSearch" [formGroup]="searchForm">
-  <input
-    class="form-control my-2"
-    [placeholder]="searchPlaceholder"
-    formControlName="searchValue"
-  />
-</form>
+<div class="row">
+  <div class="col">
+    <form *ngIf="enableSearch" [formGroup]="searchForm">
+      <input
+        class="form-control my-2"
+        [placeholder]="searchPlaceholder"
+        formControlName="searchValue"
+      />
+    </form>
 
-<table class="table table-fixed">
-  <thead>
-    <tr
-      ez-header
-      [data]="headers"
-      [options]="options"
-      (sort)="sortBy($event)"
-    ></tr>
-  </thead>
-  <tbody>
-    <ng-template *ngFor="let d of filteredData" libRowHost></ng-template>
-  </tbody>
-</table>
+    <table class="table table-fixed">
+      <thead>
+        <tr
+          ez-header
+          [data]="headers"
+          [options]="options"
+          (sort)="sortBy($event)"
+        ></tr>
+      </thead>
+      <tbody>
+        <ng-template *ngFor="let d of filteredData" libRowHost></ng-template>
+      </tbody>
+    </table>
+    <lib-ezloader
+      *ngIf="loading"
+      [showCancelBtn]="_options.showCancelBtn"
+      [cancelBtnText]="_options.cancelBtnText"
+      [message]="_options.loadingMessage"
+      (cancelUpdate)="onCancelUpdate()"
+    ></lib-ezloader>
+  </div>
+</div>

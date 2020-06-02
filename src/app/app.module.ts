@@ -16,9 +16,9 @@ import { IntroComponent } from './intro/intro.component';
 import { PreSortedUsingTableColumnComponent } from './pre-sorted-using-table-column/pre-sorted-using-table-column.component';
 import { PreSortedComponent } from './pre-sorted/pre-sorted.component';
 import { SampleRowComponent } from './sample-row/sample-row.component';
+import { SearchableTableComponent } from './searchable-table/searchable-table.component';
 import { SortableTableComponent } from './sortable-table/sortable-table.component';
 import { StripedRowsComponent } from './striped-rows/striped-rows.component';
-import { SearchableTableComponent } from './searchable-table/searchable-table.component';
 
 @NgModule({
   declarations: [
