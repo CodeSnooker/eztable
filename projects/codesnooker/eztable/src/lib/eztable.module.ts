@@ -6,7 +6,6 @@ import { EzHeaderComponent } from './ez-header/ez-header.component';
 import { EztableComponent } from './eztable.component';
 import { SmartCasePipe } from './pipes/smart-case.pipe';
 import { SimpleRowComponent } from './simple-row/simple-row.component';
-import { LoaderComponent } from './loader/loader.component';
 
 @NgModule({
   declarations: [
@@ -15,7 +14,6 @@ import { LoaderComponent } from './loader/loader.component';
     SmartCasePipe,
     RowHostDirective,
     EzHeaderComponent,
-    LoaderComponent,
   ],
   imports: [CommonModule, FormsModule, ReactiveFormsModule],
   exports: [EztableComponent, SimpleRowComponent],

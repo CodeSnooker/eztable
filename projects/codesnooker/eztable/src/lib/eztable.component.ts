@@ -50,7 +50,6 @@ export class EztableComponent implements OnInit, AfterViewInit {
   @Input() rowClass: typeof SimpleRowComponent;
   @Input() enableSearch: boolean;
   @Input() searchPlaceholder = '';
-  @Input() loading = false;
   @Input() height = '100%';
   @Output() cancelUpdate = new EventEmitter();
 

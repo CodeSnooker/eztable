@@ -21,12 +21,5 @@
         <ng-template *ngFor="let d of filteredData" libRowHost></ng-template>
       </tbody>
     </table>
-    <lib-ezloader
-      *ngIf="loading"
-      [showCancelBtn]="_options.showCancelBtn"
-      [cancelBtnText]="_options.cancelBtnText"
-      [message]="_options.loadingMessage"
-      (cancelUpdate)="onCancelUpdate()"
-    ></lib-ezloader>
   </div>
 </div>

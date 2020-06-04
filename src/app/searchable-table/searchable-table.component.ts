@@ -13,13 +13,9 @@ export class SearchableTableComponent implements OnInit {
   tableOptions: ITableOptions;
   constructor() {}
   ngOnInit(): void {
-    this.loading = true;
-    this.tableOptions = {
-      loadingMessage: 'Hold on! We are updating the data',
-    };
     setTimeout(() => {
       this.userData = [...USER_DATA, ...USER_DATA, ...USER_DATA];
       this.loading = false;
-    }, 5000);
+    }, 50);
   }
 }
