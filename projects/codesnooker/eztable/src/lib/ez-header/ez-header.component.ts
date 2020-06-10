@@ -13,7 +13,7 @@ import { ITableOptions } from '../interfaces/table-options.interface';
 import { HeaderSortIcon } from '../types/header-sort-icon.enum';
 import { SortDirection } from '../types/sort-direction.enum';
 
-type HeaderType = ITableColumn<any> | string;
+const DEFAULT_COLUMN_WIDTH = 'auto';
 
 @Component({
   // tslint:disable-next-line: component-selector
@@ -23,7 +23,7 @@ type HeaderType = ITableColumn<any> | string;
 })
 export class EzHeaderComponent implements OnInit, AfterViewInit {
   // tslint:disable-next-line: variable-name
-  private _data: HeaderType[];
+  private _data: ITableColumn<any>[];
 
   // tslint:disable-next-line: variable-name
   private _options: ITableOptions;
@@ -45,12 +45,14 @@ export class EzHeaderComponent implements OnInit, AfterViewInit {
   }
 
   /** Initial headers are passed as either string or actual Usable headers */
-  @Input() set data(value: HeaderType[]) {
+  @Input() set data(value: ITableColumn<any>[]) {
     this._data = value;
-    this.buildHeaders();
+    if (value) {
+      this.buildHeaders();
+    }
   }
 
-  get data(): HeaderType[] {
+  get data(): ITableColumn<any>[] {
     return this._data;
   }
 
@@ -84,6 +86,10 @@ export class EzHeaderComponent implements OnInit, AfterViewInit {
   // Private Methods
 
   private buildHeaders() {
+    console.log('#buildHeaders');
+    if (!this._data) {
+      return;
+    }
     const tableOptions: ITableOptions = Object.assign(
       {},
       DEFAULT_TABLE_OPTIONS,
@@ -95,22 +101,19 @@ export class EzHeaderComponent implements OnInit, AfterViewInit {
       ? SortDirection.LOCKED
       : SortDirection.NONE;
 
-    const check = (p: any): p is ITableColumn<any> => p.hasOwnProperty('key');
     this.usableHeaders = this._data.map((d, i) => {
-      if (check(d)) {
-        return Object.assign(
-          {},
-          { sortDirection: defaultSortDirection, index: i },
-          d
-        );
-      } else {
-        return {
-          key: d,
-          value: d,
-          index: i,
+      return Object.assign(
+        {},
+        {
           sortDirection: defaultSortDirection,
-        };
-      }
+          index: i,
+        },
+        d,
+        {
+          fixWidth: d.fixWidth ? d.fixWidth : undefined,
+          fixWidthValue: d.fixWidth ? d.fixWidth + '%' : DEFAULT_COLUMN_WIDTH,
+        }
+      );
     });
 
     if (!disableSorting && tableOptions.sorting.byKey) {

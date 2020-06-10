@@ -1,3 +1,3 @@
-<td *ngFor="let h of headers">
-  {{ data[h] }}
+<td *ngFor="let h of _headers" [ngStyle]="{ width: h.fixWidthValue }">
+  {{ data[h.key] }}
 </td>

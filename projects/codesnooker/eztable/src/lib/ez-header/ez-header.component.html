@@ -4,6 +4,7 @@
 <th
   *ngFor="let item of usableHeaders; let i = index"
   class="capitalize sortable noselect"
+  [ngStyle]="{ width: item.fixWidthValue }"
   (click)="sortBy(item.key, i)"
 >
   {{ item.value | smartCase }}

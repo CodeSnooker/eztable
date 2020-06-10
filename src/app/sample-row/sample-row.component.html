@@ -1,9 +1,20 @@
-<td class="text-primary">
+<td
+  class="text-primary"
+  [ngStyle]="{ width: mappedHeaders['name'].fixWidthValue }"
+>
   {{ data.name }}
 </td>
-<td class="text-secondary">
+<td
+  class="text-secondary"
+  [ngStyle]="{ width: mappedHeaders['dateOfBirth'].fixWidthValue }"
+>
   <span class="badge badge-pill badge-success">
     {{ data.dateOfBirth | date }}
   </span>
 </td>
-<td class="text-danger">{{ data.phoneNumber }}</td>
+<td
+  class="text-danger"
+  [ngStyle]="{ width: mappedHeaders['phoneNumber'].fixWidthValue }"
+>
+  {{ data.phoneNumber }}
+</td>

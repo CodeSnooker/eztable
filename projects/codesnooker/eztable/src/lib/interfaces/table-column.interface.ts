@@ -6,5 +6,6 @@ export interface ITableColumn<T> {
   index?: number;
   sortDirection?: SortDirection;
   fixWidth?: number;
+  fixWidthValue?: string;
   clazz?: string; // CSS class for sort icon
 }

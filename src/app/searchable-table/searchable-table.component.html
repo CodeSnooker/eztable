@@ -10,9 +10,10 @@
   <div class="card-body bg-primary">
     <eztable
       class="bg-primary table-striped"
+      [headers]="headers"
       [data]="userData"
       enableSearch="true"
-      height="300"
+      heightVal="300px"
       searchPlaceholder="You can search by name, birthday or phone number"
     >
     </eztable>

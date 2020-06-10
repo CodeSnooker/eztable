@@ -10,6 +10,8 @@ import {
   ViewChildren,
 } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { timer } from 'rxjs';
+import { debounce } from 'rxjs/operators';
 import { RowHostDirective } from './directives/row-host.directive';
 import { SortEvent } from './interfaces/sort-event.interface';
 import { ITableColumn } from './interfaces/table-column.interface';
@@ -43,6 +45,10 @@ export class EztableComponent implements OnInit, AfterViewInit {
   // tslint:disable-next-line: variable-name
   private _readyToReload = false;
 
+  headerRightMargin = '0px';
+
+  bodyHeight = 'auto';
+
   usableHeaders: ITableColumn<any>[];
   @ViewChildren(RowHostDirective) rowHosts: QueryList<RowHostDirective>;
 
@@ -50,8 +56,11 @@ export class EztableComponent implements OnInit, AfterViewInit {
   @Input() rowClass: typeof SimpleRowComponent;
   @Input() enableSearch: boolean;
   @Input() searchPlaceholder = '';
-  @Input() height = '100%';
   @Output() cancelUpdate = new EventEmitter();
+  @Input() set heightVal(value: string) {
+    this.headerRightMargin = '15px';
+    this.bodyHeight = value;
+  }
 
   filteredData: any[];
   searchForm: FormGroup;
@@ -64,6 +73,8 @@ export class EztableComponent implements OnInit, AfterViewInit {
     // console.log('#input');
     this._data = value;
     this.filteredData = value;
+
+    console.log('Headers => ', this.headers);
 
     // if (!value || value.length === 0) {
     //   return;
@@ -79,12 +90,13 @@ export class EztableComponent implements OnInit, AfterViewInit {
           (d) => d.key
         );
       } else {
-        this._headerKeys = Object.keys(value[0] || {});
+        this._headerKeys = [...(this.headers as Array<string>)];
       }
     }
 
     if (this._viewInit) {
       setTimeout(() => {
+        this.determineWidth();
         this.loadRows();
         this._viewInit = true;
       }, 10);
@@ -112,6 +124,7 @@ export class EztableComponent implements OnInit, AfterViewInit {
     console.log('#ngAfterViewInit');
     if (this.data && this.rowHosts) {
       setTimeout(() => {
+        this.determineWidth();
         this.loadRows();
         this.registerForSearchChange();
         this._viewInit = true;
@@ -123,52 +136,152 @@ export class EztableComponent implements OnInit, AfterViewInit {
     this.cancelUpdate.emit();
   }
 
+  private determineWidth() {
+    console.log('determine Width');
+    const headerCount = this._headerKeys?.length || 0;
+    if (headerCount <= 0) {
+      return;
+    }
+
+    let availableWidth = 100;
+    // Now check the available width to set
+    const check = (p: any): p is ITableColumn<any> => p.hasOwnProperty('key');
+    const widthRecord: Record<string, number> = {};
+    let canWeUseHeaderAsItIs = false;
+    if (check(this.headers[0])) {
+      canWeUseHeaderAsItIs = true;
+      this.headers.forEach((h: ITableColumn<any>) => {
+        if (!h.fixWidth) {
+          widthRecord[h.key] = 0;
+        }
+        const w = h.fixWidth || 0;
+        availableWidth = availableWidth - w;
+      });
+    } else {
+      this._headerKeys.forEach((h) => {
+        widthRecord[h] = 0;
+      });
+      availableWidth = 100;
+    }
+
+    this.data.forEach((d) => {
+      this._headerKeys.forEach((h) => {
+        const r = d[h].toString();
+        widthRecord[h] = Math.max(widthRecord[h], r.length || 0);
+      });
+    });
+
+    // get the sum of characters
+    const keys = Object.keys(widthRecord);
+    let sum = 0;
+    keys.forEach((k) => {
+      sum += widthRecord[k];
+    });
+
+    console.log('Available Width => ', availableWidth);
+    console.log('Width Record => ', widthRecord);
+    console.log('Sum => ', sum);
+
+    // Ideal distribution
+    console.log('headers => ', this.headers);
+    const percentTable: Record<string, number> = {};
+    const totalKeys = this._headerKeys.length;
+    let maxWidth = 50;
+
+    switch (totalKeys) {
+      case 0:
+      case 1: {
+        maxWidth = 100;
+        break;
+      }
+      case 2:
+      case 3: {
+        maxWidth = 50;
+        break;
+      }
+      default: {
+        maxWidth = 40;
+        break;
+      }
+    }
+
+    this._headerKeys.forEach((h) => {
+      if (widthRecord[h]) {
+        const percent = (widthRecord[h] / sum) * availableWidth;
+        percentTable[h] = Math.max(percent, 10);
+        percentTable[h] = Math.min(percentTable[h], maxWidth);
+        console.log(h, ' => ', percent);
+      }
+    });
+
+    // fixWidth: d.fixWidth ? d.fixWidth : undefined,
+    //       fixWidthValue: d.fixWidth ? d.fixWidth + '%' : DEFAULT_COLUMN_WIDTH,
+
+    if (canWeUseHeaderAsItIs) {
+      this.usableHeaders = this.headers.map((h: ITableColumn<any>) => {
+        return Object.assign({}, h, {
+          fixWidth: percentTable[h.key],
+          fixWidthValue: percentTable[h.key]
+            ? percentTable[h.key] + '%'
+            : 'auto',
+        });
+      });
+    } else {
+      this.usableHeaders = this._headerKeys.map((h) => {
+        return {
+          key: h,
+          value: h,
+          fixWidth: percentTable[h],
+          fixWidthValue: percentTable[h] ? percentTable[h] + '%' : 'auto',
+        };
+      });
+    }
+  }
+
   private registerForSearchChange() {
-    this.searchForm.get('searchValue').valueChanges.subscribe((val: string) => {
-      console.log(val);
-      const lVal: string = val.toLowerCase();
+    this.searchForm
+      .get('searchValue')
+      .valueChanges.pipe(debounce(() => timer(300)))
+      .subscribe((val: string) => {
+        console.log(val);
+        const lVal: string = val.toLowerCase();
 
-      if (val && val.length > 0) {
-        this.filteredData = this.data.filter((r, i) => {
-          const values: any[] = Object.values(r);
-          const searchResult = values.some((v) => {
-            if (v) {
-              const t: string = v.toString().toLowerCase();
-              return t.indexOf(lVal) >= 0;
-            } else {
-              return false;
-            }
+        if (val && val.length > 0) {
+          this.filteredData = this.data.filter((r, i) => {
+            const values: any[] = Object.values(r);
+            const searchResult = values.some((v) => {
+              if (v) {
+                const t: string = v.toString().toLowerCase();
+                return t.indexOf(lVal) >= 0;
+              } else {
+                return false;
+              }
+            });
+
+            return searchResult;
           });
-          console.log(
-            'looking in index => ',
-            i,
-            ', search result => ',
-            searchResult
-          );
-          return searchResult;
-        });
 
-        console.log(this.filteredData);
-        setTimeout(() => {
-          this.loadRows();
-        });
-        if (!this.filteredData || this.filteredData.length === 0) {
-          this._readyToReload = true;
-        } else if (this.filteredData.length > 0 && this._readyToReload) {
+          // console.log(this.filteredData);
+          setTimeout(() => {
+            this.loadRows();
+          });
+          if (!this.filteredData || this.filteredData.length === 0) {
+            this._readyToReload = true;
+          } else if (this.filteredData.length > 0 && this._readyToReload) {
+            this._readyToReload = false;
+            setTimeout(() => {
+              this.loadRows();
+            });
+          }
+        } else {
+          console.log('Reloading rows');
+          this.filteredData = this.data;
           this._readyToReload = false;
           setTimeout(() => {
             this.loadRows();
           });
         }
-      } else {
-        console.log('Reloading rows');
-        this.filteredData = this.data;
-        this._readyToReload = false;
-        setTimeout(() => {
-          this.loadRows();
-        });
-      }
-    });
+      });
   }
 
   private loadRows() {
@@ -183,7 +296,7 @@ export class EztableComponent implements OnInit, AfterViewInit {
 
       const componentRef = viewContainerRef.createComponent(componentFactory);
       componentRef.instance.data = this.filteredData[index];
-      componentRef.instance.headers = this._headerKeys;
+      componentRef.instance.headers = this.usableHeaders;
     });
   }
 

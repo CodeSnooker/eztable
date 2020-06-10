@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { USER_DATA } from '../fixtures';
+import { BOOK_DATA } from '../fixtures';
 import { ITableOptions } from './../../../projects/codesnooker/eztable/src/public-api';
 
 @Component({
@@ -11,10 +11,20 @@ export class SearchableTableComponent implements OnInit {
   userData = [];
   loading = false;
   tableOptions: ITableOptions;
+  headers: string[] = [
+    'isbn',
+    'title',
+    'subtitle',
+    'author',
+    'publisher',
+    'pages',
+    'description',
+  ];
   constructor() {}
   ngOnInit(): void {
+    // this.headers = ['isbn', 'title', 'author', 'publisher', 'pages'];
     setTimeout(() => {
-      this.userData = [...USER_DATA, ...USER_DATA, ...USER_DATA];
+      this.userData = [...BOOK_DATA];
       this.loading = false;
     }, 50);
   }
