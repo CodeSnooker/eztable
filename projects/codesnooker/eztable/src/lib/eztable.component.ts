@@ -166,7 +166,8 @@ export class EztableComponent implements OnInit, AfterViewInit {
 
     this.data.forEach((d) => {
       this._headerKeys.forEach((h) => {
-        const r = d[h].toString();
+        console.log(d[h]);
+        const r = d[h]?.toString() || '';
         widthRecord[h] = Math.max(widthRecord[h], r.length || 0);
       });
     });
