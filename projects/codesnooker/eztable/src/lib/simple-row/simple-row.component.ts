@@ -12,6 +12,7 @@ export class SimpleRowComponent implements OnInit {
   _headers: ITableColumn<any>[];
   mappedHeaders: Record<string, ITableColumn<any>> = {};
 
+  @Input() index: number;
   @Input() data: any;
   @Input() set headers(value: ITableColumn<any>[]) {
     this._headers = value;

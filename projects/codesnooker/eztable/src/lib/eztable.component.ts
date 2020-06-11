@@ -98,6 +98,7 @@ export class EztableComponent implements OnInit, AfterViewInit {
       setTimeout(() => {
         this.determineWidth();
         this.loadRows();
+        this.preSortCheck();
         this._viewInit = true;
       }, 10);
     }
@@ -126,6 +127,7 @@ export class EztableComponent implements OnInit, AfterViewInit {
       setTimeout(() => {
         this.determineWidth();
         this.loadRows();
+        this.preSortCheck();
         this.registerForSearchChange();
         this._viewInit = true;
       });
@@ -138,7 +140,9 @@ export class EztableComponent implements OnInit, AfterViewInit {
 
   private determineWidth() {
     console.log('determine Width');
+    const percentTable: Record<string, number> = {};
     const headerCount = this._headerKeys?.length || 0;
+    let alreadyCountedKeys = 0;
     if (headerCount <= 0) {
       return;
     }
@@ -153,8 +157,11 @@ export class EztableComponent implements OnInit, AfterViewInit {
       this.headers.forEach((h: ITableColumn<any>) => {
         if (!h.fixWidth) {
           widthRecord[h.key] = 0;
+          return;
         }
         const w = h.fixWidth || 0;
+        percentTable[h.key] = h.fixWidth;
+        alreadyCountedKeys++;
         availableWidth = availableWidth - w;
       });
     } else {
@@ -176,7 +183,7 @@ export class EztableComponent implements OnInit, AfterViewInit {
     const keys = Object.keys(widthRecord);
     let sum = 0;
     keys.forEach((k) => {
-      sum += widthRecord[k];
+      sum += widthRecord[k] || 0;
     });
 
     console.log('Available Width => ', availableWidth);
@@ -185,8 +192,8 @@ export class EztableComponent implements OnInit, AfterViewInit {
 
     // Ideal distribution
     console.log('headers => ', this.headers);
-    const percentTable: Record<string, number> = {};
-    const totalKeys = this._headerKeys.length;
+
+    const totalKeys = this._headerKeys.length - alreadyCountedKeys;
     let maxWidth = 50;
 
     switch (totalKeys) {
@@ -295,7 +302,12 @@ export class EztableComponent implements OnInit, AfterViewInit {
       const viewContainerRef = host.viewContainerRef;
       viewContainerRef.clear();
 
+      console.log(
+        `Going to assign data (${index}) => `,
+        this.filteredData[index]
+      );
       const componentRef = viewContainerRef.createComponent(componentFactory);
+      componentRef.instance.index = index;
       componentRef.instance.data = this.filteredData[index];
       componentRef.instance.headers = this.usableHeaders;
     });
@@ -306,6 +318,21 @@ export class EztableComponent implements OnInit, AfterViewInit {
     return !isNaN(dateWrapper.getDate());
   }
 
+  private preSortCheck() {
+    setTimeout(() => {
+      if (this.usableHeaders) {
+        this.usableHeaders.forEach((h) => {
+          if (
+            h.sortDirection === SortDirection.ASCENDING ||
+            h.sortDirection === SortDirection.DESCENDING
+          ) {
+            this.sortBy({ key: h.key, direction: h.sortDirection });
+          }
+        });
+      }
+    }, 0);
+  }
+
   /**
    * Performs the sorting on the dataset based on key and direction specified in the event
    */
@@ -314,7 +341,7 @@ export class EztableComponent implements OnInit, AfterViewInit {
       v1 < v2 ? -1 : v1 > v2 ? 1 : 0;
 
     console.log('sortBy');
-    this.filteredData.sort((a, b) => {
+    const result = this.filteredData.sort((a, b) => {
       if (Number.isFinite(a[key]) && Number.isFinite(b[key])) {
         const res = compare(a[key], b[key]);
         return direction === SortDirection.ASCENDING ? res : -res;
@@ -329,5 +356,8 @@ export class EztableComponent implements OnInit, AfterViewInit {
         return direction === SortDirection.ASCENDING ? res : -res;
       }
     });
+
+    console.log('sorted Data => ', this.filteredData);
+    console.log('result => ', result);
   }
 }
