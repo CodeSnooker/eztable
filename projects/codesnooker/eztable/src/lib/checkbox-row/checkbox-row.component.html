@@ -1,0 +1,6 @@
+<td>
+  <ng-template #dynamic></ng-template>
+</td>
+<td *ngFor="let h of _headers" [ngStyle]="{ width: h.fixWidthValue }">
+  {{ data[h.key] }}
+</td>

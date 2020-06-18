@@ -1,0 +1,13 @@
+<span
+  [attr.aria-label]="ariaLabel"
+  role="checkbox"
+  (click)="onTouched(); toggleChecked($event)"
+  [style.cursor]="disabled ? 'default' : 'pointer'"
+>
+  <i-feather class="medium" name="square" *ngIf="!value"></i-feather>
+  <i-feather
+    class="medium {{ checkedClazz }}"
+    name="check-square"
+    *ngIf="value"
+  ></i-feather>
+</span>

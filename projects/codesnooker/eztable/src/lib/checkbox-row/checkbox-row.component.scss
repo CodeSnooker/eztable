@@ -1,0 +1,8 @@
+tr:host {
+  display: flex !important;
+}
+
+:host.selected td {
+  background-color: #007bff !important;
+  color: #f8f9fa !important;
+}

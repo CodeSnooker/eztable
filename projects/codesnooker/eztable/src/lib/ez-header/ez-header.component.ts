@@ -22,6 +22,8 @@ const DEFAULT_COLUMN_WIDTH = 'auto';
   styleUrls: ['./ez-header.component.scss'],
 })
 export class EzHeaderComponent implements OnInit, AfterViewInit {
+  // @ViewChild('dc') checkbox: DynamicCheckboxComponent;
+
   // tslint:disable-next-line: variable-name
   private _data: ITableColumn<any>[];
 
@@ -30,6 +32,8 @@ export class EzHeaderComponent implements OnInit, AfterViewInit {
 
   /** Notifies Table about sort action */
   @Output() sort = new EventEmitter<SortEvent>();
+
+  @Output() selected = new EventEmitter<boolean>();
 
   /** Final headers to be used by UI  */
   usableHeaders: ITableColumn<any>[];
@@ -82,6 +86,11 @@ export class EzHeaderComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {}
+
+  onChecked(value: boolean) {
+    console.log('#onChecked => ', value);
+    this.selected.emit(value);
+  }
 
   // Private Methods
 

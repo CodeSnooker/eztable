@@ -9,9 +9,16 @@ import {
   QueryList,
   ViewChildren,
 } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import {
+  FormArray,
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 import { timer } from 'rxjs';
 import { debounce } from 'rxjs/operators';
+import { CheckboxRowComponent } from './checkbox-row/checkbox-row.component';
 import { RowHostDirective } from './directives/row-host.directive';
 import { SortEvent } from './interfaces/sort-event.interface';
 import { ITableColumn } from './interfaces/table-column.interface';
@@ -31,6 +38,8 @@ type HeaderType = ITableColumn<any> | string;
   styleUrls: ['./eztable.component.scss'],
 })
 export class EztableComponent implements OnInit, AfterViewInit {
+  form: FormArray;
+
   // tslint:disable-next-line: variable-name
   private _data: any[];
   // tslint:disable-next-line: variable-name
@@ -44,6 +53,9 @@ export class EztableComponent implements OnInit, AfterViewInit {
 
   // tslint:disable-next-line: variable-name
   private _readyToReload = false;
+
+  // tslint:disable-next-line: variable-name
+  private _allSelected = false;
 
   headerRightMargin = '0px';
 
@@ -64,6 +76,9 @@ export class EztableComponent implements OnInit, AfterViewInit {
 
   filteredData: any[];
   searchForm: FormGroup;
+
+  // tslint:disable-next-line: variable-name
+  private _drList: CheckboxRowComponent[] = [];
 
   @Input() set options(value: ITableOptions) {
     this._options = Object.assign({}, DEFAULT_TABLE_OPTIONS, value);
@@ -94,6 +109,9 @@ export class EztableComponent implements OnInit, AfterViewInit {
       }
     }
 
+    // Make this form only if checkboxex are required
+    this.createSelectionForm();
+
     if (this._viewInit) {
       setTimeout(() => {
         this.determineWidth();
@@ -119,6 +137,7 @@ export class EztableComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     // console.log('#ngOnInit');
+    this.form = new FormArray([]);
   }
 
   ngAfterViewInit(): void {
@@ -136,6 +155,13 @@ export class EztableComponent implements OnInit, AfterViewInit {
 
   onCancelUpdate() {
     this.cancelUpdate.emit();
+  }
+
+  private createSelectionForm() {
+    this._data.forEach((d) => {
+      const fc = new FormControl(false, [Validators.required]);
+      this.form.push(fc);
+    });
   }
 
   private determineWidth() {
@@ -292,10 +318,16 @@ export class EztableComponent implements OnInit, AfterViewInit {
       });
   }
 
+  selectAll(value: boolean) {
+    this._allSelected = value;
+    this._drList.forEach((d) => d.onCheckedByParent(this._allSelected));
+  }
+
   private loadRows() {
     console.log('#loadRows');
+    this._drList = [];
     const componentFactory = this.cfr.resolveComponentFactory(
-      this.rowClass || SimpleRowComponent
+      this.rowClass || CheckboxRowComponent || SimpleRowComponent
     );
 
     this.rowHosts.forEach((host: RowHostDirective, index: number) => {
@@ -310,6 +342,13 @@ export class EztableComponent implements OnInit, AfterViewInit {
       componentRef.instance.index = index;
       componentRef.instance.data = this.filteredData[index];
       componentRef.instance.headers = this.usableHeaders;
+
+      if (componentRef.instance instanceof CheckboxRowComponent) {
+        console.log('Component is of type CheckboxRowComponent ');
+        componentRef.instance.formControl = this.form[index];
+        componentRef.instance.isSelected = this._allSelected;
+        this._drList.push(componentRef.instance);
+      }
     });
   }
 

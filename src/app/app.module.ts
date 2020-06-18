@@ -19,6 +19,9 @@ import { SampleRowComponent } from './sample-row/sample-row.component';
 import { SearchableTableComponent } from './searchable-table/searchable-table.component';
 import { SortableTableComponent } from './sortable-table/sortable-table.component';
 import { StripedRowsComponent } from './striped-rows/striped-rows.component';
+import { CheckboxExampleComponent } from './checkbox-example/checkbox-example.component';
+import { CustomRowCheckboxDemoComponent } from './custom-row-checkbox-demo/custom-row-checkbox-demo.component';
+import { SampleCheckboxRowComponent } from './sample-checkbox-row/sample-checkbox-row.component';
 
 @NgModule({
   declarations: [
@@ -39,6 +42,9 @@ import { StripedRowsComponent } from './striped-rows/striped-rows.component';
     SortableTableComponent,
     PreSortedUsingTableColumnComponent,
     SearchableTableComponent,
+    CheckboxExampleComponent,
+    CustomRowCheckboxDemoComponent,
+    SampleCheckboxRowComponent,
   ],
   imports: [BrowserModule, AppRoutingModule, EztableModule],
   providers: [],

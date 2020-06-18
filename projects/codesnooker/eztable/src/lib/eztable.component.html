@@ -18,6 +18,7 @@
             (sort)="sortBy($event)"
             ezPadRight
             [marginRight]="headerRightMargin"
+            (selected)="selectAll($event)"
           ></tr>
         </thead>
         <tbody [ngStyle]="{ 'max-height': bodyHeight }">
