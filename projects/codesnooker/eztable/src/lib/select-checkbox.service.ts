@@ -29,6 +29,7 @@ export class SelectCheckboxService {
     const component = factory.create(this.rootViewContainer.injector);
     this.rootViewContainer.insert(component.hostView);
     component.instance.value = false;
+    component.instance.changeDetection.detectChanges();
     return component.instance;
   }
 }

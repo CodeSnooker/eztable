@@ -31,6 +31,7 @@ export class CheckboxRowComponent extends SimpleRowComponent
 
   @HostBinding('class.selected')
   @HostBinding('class.text-light')
+  @HostBinding('class.bg-primary')
   isSelected = false;
 
   @HostListener('click', ['$event.target'])

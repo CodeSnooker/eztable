@@ -9,13 +9,7 @@ import {
   QueryList,
   ViewChildren,
 } from '@angular/core';
-import {
-  FormArray,
-  FormBuilder,
-  FormControl,
-  FormGroup,
-  Validators,
-} from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { timer } from 'rxjs';
 import { debounce } from 'rxjs/operators';
 import { CheckboxRowComponent } from './checkbox-row/checkbox-row.component';
@@ -158,10 +152,10 @@ export class EztableComponent implements OnInit, AfterViewInit {
   }
 
   private createSelectionForm() {
-    this._data.forEach((d) => {
-      const fc = new FormControl(false, [Validators.required]);
-      this.form.push(fc);
-    });
+    // this._data.forEach((d) => {
+    //   const fc = new FormControl(false, [Validators.required]);
+    //   this.form.push(fc);
+    // });
   }
 
   private determineWidth() {

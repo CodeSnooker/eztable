@@ -5,7 +5,8 @@ import {
 } from './../../../projects/codesnooker/eztable/src/public-api';
 
 @Component({
-  selector: 'app-sample-checkbox-row',
+  // tslint:disable-next-line: component-selector
+  selector: 'tr[app-sample-checkbox-row]',
   templateUrl: './sample-checkbox-row.component.html',
   styleUrls: ['./sample-checkbox-row.component.scss'],
 })

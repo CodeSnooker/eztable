@@ -1,9 +1,9 @@
 import {
+  AfterViewInit,
   ChangeDetectorRef,
   Component,
   EventEmitter,
   forwardRef,
-  HostBinding,
   Input,
   OnInit,
   Output,
@@ -25,17 +25,18 @@ export const FEATHER_CHECKBOX_CONTROL_VALUE_ACCESSOR: AccessorContent = {
   templateUrl: './dynamic-checkbox.component.html',
   styleUrls: ['./dynamic-checkbox.component.scss'],
 })
-export class DynamicCheckboxComponent implements ControlValueAccessor, OnInit {
+export class DynamicCheckboxComponent
+  implements ControlValueAccessor, OnInit, AfterViewInit {
   /** if true will not react on any user events */
   @Input() disabled = false;
   @Input() checkedClazz = 'text-success';
 
   @Output() checked = new EventEmitter<boolean>();
 
-  @HostBinding('style.opacity')
-  get opacity() {
-    return this.disabled ? 1 : 1;
-  }
+  // @HostBinding('style.opacity')
+  // get opacity() {
+  //   return this.disabled ? 1 : 1;
+  // }
 
   value: boolean;
 
@@ -49,7 +50,7 @@ export class DynamicCheckboxComponent implements ControlValueAccessor, OnInit {
   // value: boolean;
 
   constructor(
-    private changeDetection: ChangeDetectorRef,
+    public changeDetection: ChangeDetectorRef,
     config: DynamicCheckboxConfig
   ) {
     Object.assign(this, config);
@@ -58,6 +59,8 @@ export class DynamicCheckboxComponent implements ControlValueAccessor, OnInit {
   ngOnInit() {
     this.value = false;
   }
+
+  ngAfterViewInit(): void {}
 
   writeValue(checked: boolean): void {
     this.value = checked;
