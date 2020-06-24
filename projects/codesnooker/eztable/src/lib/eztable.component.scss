@@ -58,6 +58,24 @@ input.form-control {
   height: 40px;
 }
 
+.btn-clear-search {
+  height: 35px;
+  border-radius: 3px;
+}
+
+.btn-clear-search:disabled {
+  border-color: grey;
+  color: grey;
+  opacity: 0.25;
+}
+
+.clear-search-btn-container {
+  position: absolute;
+  z-index: 3;
+  right: 5px;
+  top: 2px;
+}
+
 // .table-wrap {
 //   height: 80px;
 //   overflow-y: auto;

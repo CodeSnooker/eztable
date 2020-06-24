@@ -1,15 +1,15 @@
 import {
   AfterViewInit,
   Component,
+  EventEmitter,
   HostBinding,
   HostListener,
   Inject,
-  Input,
   OnInit,
+  Output,
   ViewChild,
   ViewContainerRef,
 } from '@angular/core';
-import { FormControl } from '@angular/forms';
 import { DynamicCheckboxComponent } from '../dynamic-checkbox/dynamic-checkbox.component';
 import { SelectCheckboxService } from '../select-checkbox.service';
 import { SimpleRowComponent } from '../simple-row/simple-row.component';
@@ -26,13 +26,14 @@ export class CheckboxRowComponent extends SimpleRowComponent
   })
   viewContainerRef: ViewContainerRef;
 
-  @Input() formControl: FormControl;
   private checkboxComponent: DynamicCheckboxComponent;
 
   @HostBinding('class.selected')
   @HostBinding('class.text-light')
   @HostBinding('class.bg-primary')
   isSelected = false;
+
+  @Output() rowSelected = new EventEmitter<boolean>();
 
   @HostListener('click', ['$event.target'])
   onClick() {
@@ -54,6 +55,7 @@ export class CheckboxRowComponent extends SimpleRowComponent
     this.checkboxComponent = this.service.addDynamicComponent();
     this.checkboxComponent.checked.subscribe((selection: boolean) => {
       this.isSelected = selection;
+      this.rowSelected.emit(this.isSelected);
       if (this.isSelected) {
         this.checkboxComponent.checkedClazz = 'text-light';
       } else {

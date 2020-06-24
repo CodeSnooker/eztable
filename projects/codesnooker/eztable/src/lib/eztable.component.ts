@@ -9,7 +9,7 @@ import {
   QueryList,
   ViewChildren,
 } from '@angular/core';
-import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { timer } from 'rxjs';
 import { debounce } from 'rxjs/operators';
 import { CheckboxRowComponent } from './checkbox-row/checkbox-row.component';
@@ -32,8 +32,6 @@ type HeaderType = ITableColumn<any> | string;
   styleUrls: ['./eztable.component.scss'],
 })
 export class EztableComponent implements OnInit, AfterViewInit {
-  form: FormArray;
-
   // tslint:disable-next-line: variable-name
   private _data: any[];
   // tslint:disable-next-line: variable-name
@@ -63,13 +61,26 @@ export class EztableComponent implements OnInit, AfterViewInit {
   @Input() enableSearch: boolean;
   @Input() searchPlaceholder = '';
   @Output() cancelUpdate = new EventEmitter();
+
+  // Emits the recently selected / unselected row
+  @Output() rowSelected = new EventEmitter();
+
+  // Emits all the records which are currently selected
+  @Output() selectedRowList = new EventEmitter();
+
+  @Output() searched = new EventEmitter<string>();
+
   @Input() set heightVal(value: string) {
     this.headerRightMargin = '15px';
     this.bodyHeight = value;
   }
 
+  disableClearSearchBtn = true;
+
   filteredData: any[];
   searchForm: FormGroup;
+
+  showCheckboxes = false;
 
   // tslint:disable-next-line: variable-name
   private _drList: CheckboxRowComponent[] = [];
@@ -85,10 +96,6 @@ export class EztableComponent implements OnInit, AfterViewInit {
 
     console.log('Headers => ', this.headers);
 
-    // if (!value || value.length === 0) {
-    //   return;
-    // }
-
     if (!this.headers || this.headers.length === 0) {
       this.headers = Object.keys(value[0] || {});
       this._headerKeys = Object.keys(value[0] || {});
@@ -102,9 +109,6 @@ export class EztableComponent implements OnInit, AfterViewInit {
         this._headerKeys = [...(this.headers as Array<string>)];
       }
     }
-
-    // Make this form only if checkboxex are required
-    this.createSelectionForm();
 
     if (this._viewInit) {
       setTimeout(() => {
@@ -131,7 +135,7 @@ export class EztableComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     // console.log('#ngOnInit');
-    this.form = new FormArray([]);
+    // this.form = new FormArray([]);
   }
 
   ngAfterViewInit(): void {
@@ -149,13 +153,6 @@ export class EztableComponent implements OnInit, AfterViewInit {
 
   onCancelUpdate() {
     this.cancelUpdate.emit();
-  }
-
-  private createSelectionForm() {
-    // this._data.forEach((d) => {
-    //   const fc = new FormControl(false, [Validators.required]);
-    //   this.form.push(fc);
-    // });
   }
 
   private determineWidth() {
@@ -271,10 +268,22 @@ export class EztableComponent implements OnInit, AfterViewInit {
       .get('searchValue')
       .valueChanges.pipe(debounce(() => timer(300)))
       .subscribe((val: string) => {
+        // In this case, we need to emit the search value that can be registered as valid search term
+        if (val && val.length > 0) {
+          console.log('Emitting => ', val);
+          this.searched.emit(val);
+        }
+      });
+
+    this.searchForm
+      .get('searchValue')
+      .valueChanges.pipe(debounce(() => timer(3)))
+      .subscribe((val: string) => {
         console.log(val);
         const lVal: string = val.toLowerCase();
 
         if (val && val.length > 0) {
+          this.disableClearSearchBtn = false;
           this.filteredData = this.data.filter((r, i) => {
             const values: any[] = Object.values(r);
             const searchResult = values.some((v) => {
@@ -302,6 +311,7 @@ export class EztableComponent implements OnInit, AfterViewInit {
             });
           }
         } else {
+          this.disableClearSearchBtn = true;
           console.log('Reloading rows');
           this.filteredData = this.data;
           this._readyToReload = false;
@@ -315,6 +325,17 @@ export class EztableComponent implements OnInit, AfterViewInit {
   selectAll(value: boolean) {
     this._allSelected = value;
     this._drList.forEach((d) => d.onCheckedByParent(this._allSelected));
+
+    if (this._allSelected) {
+      this.selectedRowList.emit(this._drList.map((d) => d.data));
+    } else {
+      // Emits that currently none of the row is selected
+      this.selectedRowList.emit([]);
+    }
+  }
+
+  clearSearch() {
+    this.searchForm.get('searchValue').setValue('');
   }
 
   private loadRows() {
@@ -339,7 +360,6 @@ export class EztableComponent implements OnInit, AfterViewInit {
 
       if (componentRef.instance instanceof CheckboxRowComponent) {
         console.log('Component is of type CheckboxRowComponent ');
-        componentRef.instance.formControl = this.form[index];
         componentRef.instance.isSelected = this._allSelected;
         this._drList.push(componentRef.instance);
       }
