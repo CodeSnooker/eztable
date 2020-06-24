@@ -2,7 +2,7 @@
 <!-- {{ item | json }} -->
 
 <th>
-  <ez-dynamic-checkbox (checked)="onChecked($event)"></ez-dynamic-checkbox>
+  <ez-dynamic-checkbox #dc (checked)="onChecked($event)"></ez-dynamic-checkbox>
 </th>
 <th
   *ngFor="let item of usableHeaders; let i = index"

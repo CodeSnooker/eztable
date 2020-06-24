@@ -94,12 +94,14 @@ export class DynamicCheckboxComponent
     }
   }
 
-  markUnSelected() {
+  markUnSelected(emit: boolean = true) {
     const newValue = false;
     if (!this.disabled) {
       this.writeValue(newValue);
       this.onChange(newValue);
-      this.checked.emit(newValue);
+      if (emit) {
+        this.checked.emit(newValue);
+      }
     }
   }
 

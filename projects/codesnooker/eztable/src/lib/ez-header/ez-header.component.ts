@@ -5,7 +5,9 @@ import {
   Input,
   OnInit,
   Output,
+  ViewChild,
 } from '@angular/core';
+import { DynamicCheckboxComponent } from '../dynamic-checkbox/dynamic-checkbox.component';
 import { DEFAULT_TABLE_OPTIONS } from '../fixtures/table-options.fixture';
 import { SortEvent } from '../interfaces/sort-event.interface';
 import { ITableColumn } from '../interfaces/table-column.interface';
@@ -22,7 +24,7 @@ const DEFAULT_COLUMN_WIDTH = 'auto';
   styleUrls: ['./ez-header.component.scss'],
 })
 export class EzHeaderComponent implements OnInit, AfterViewInit {
-  // @ViewChild('dc') checkbox: DynamicCheckboxComponent;
+  @ViewChild('dc') checkbox: DynamicCheckboxComponent;
 
   // tslint:disable-next-line: variable-name
   private _data: ITableColumn<any>[];
@@ -89,7 +91,13 @@ export class EzHeaderComponent implements OnInit, AfterViewInit {
 
   onChecked(value: boolean) {
     console.log('#onChecked => ', value);
+    // this.checked = value;
     this.selected.emit(value);
+  }
+
+  uncheckByParent() {
+    // this.checked = false;
+    this.checkbox.markUnSelected(false);
   }
 
   // Private Methods

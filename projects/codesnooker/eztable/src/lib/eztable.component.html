@@ -36,6 +36,7 @@
             ezPadRight
             [marginRight]="headerRightMargin"
             (selected)="selectAll($event)"
+            #ezheaders
           ></tr>
         </thead>
         <tbody [ngStyle]="{ 'max-height': bodyHeight }">

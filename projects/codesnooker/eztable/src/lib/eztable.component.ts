@@ -7,6 +7,7 @@ import {
   OnInit,
   Output,
   QueryList,
+  ViewChild,
   ViewChildren,
 } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
@@ -14,6 +15,7 @@ import { timer } from 'rxjs';
 import { debounce } from 'rxjs/operators';
 import { CheckboxRowComponent } from './checkbox-row/checkbox-row.component';
 import { RowHostDirective } from './directives/row-host.directive';
+import { EzHeaderComponent } from './ez-header/ez-header.component';
 import { SortEvent } from './interfaces/sort-event.interface';
 import { ITableColumn } from './interfaces/table-column.interface';
 import {
@@ -55,6 +57,8 @@ export class EztableComponent implements OnInit, AfterViewInit {
 
   usableHeaders: ITableColumn<any>[];
   @ViewChildren(RowHostDirective) rowHosts: QueryList<RowHostDirective>;
+
+  @ViewChild('ezheaders') ezHeader: EzHeaderComponent;
 
   @Input() headers: Array<HeaderType>;
   @Input() rowClass: typeof SimpleRowComponent;
@@ -368,6 +372,11 @@ export class EztableComponent implements OnInit, AfterViewInit {
         comp.isSelected = this._allSelected;
         setTimeout(() => {
           comp.onCheckedByParent(this._allSelected);
+          comp.rowSelected.subscribe((d: boolean) => {
+            if (d === false) {
+              this.ezHeader.uncheckByParent();
+            }
+          });
         }, 30);
         this._drList.push(componentRef.instance);
       }
