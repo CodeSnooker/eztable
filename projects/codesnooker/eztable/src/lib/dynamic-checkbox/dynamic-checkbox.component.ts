@@ -57,13 +57,14 @@ export class DynamicCheckboxComponent
   }
 
   ngOnInit() {
-    this.value = false;
+    // this.value = false;
   }
 
   ngAfterViewInit(): void {}
 
   writeValue(checked: boolean): void {
     this.value = checked;
+    console.log('value => ', this.value);
     // this.onChange(this.value);
   }
 
@@ -104,6 +105,7 @@ export class DynamicCheckboxComponent
 
   updateSelection(value: boolean) {
     const newValue = value;
+    console.log('#updateSelection => ', newValue);
     if (!this.disabled) {
       this.writeValue(newValue);
       this.onChange(newValue);

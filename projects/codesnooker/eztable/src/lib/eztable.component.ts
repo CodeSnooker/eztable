@@ -323,6 +323,8 @@ export class EztableComponent implements OnInit, AfterViewInit {
   }
 
   selectAll(value: boolean) {
+    console.log('#selectAll => ', this._drList);
+
     this._allSelected = value;
     this._drList.forEach((d) => d.onCheckedByParent(this._allSelected));
 
@@ -345,6 +347,8 @@ export class EztableComponent implements OnInit, AfterViewInit {
       this.rowClass || CheckboxRowComponent || SimpleRowComponent
     );
 
+    console.log('row host => ', this.rowHosts.length);
+
     this.rowHosts.forEach((host: RowHostDirective, index: number) => {
       const viewContainerRef = host.viewContainerRef;
       viewContainerRef.clear();
@@ -360,7 +364,11 @@ export class EztableComponent implements OnInit, AfterViewInit {
 
       if (componentRef.instance instanceof CheckboxRowComponent) {
         console.log('Component is of type CheckboxRowComponent ');
-        componentRef.instance.isSelected = this._allSelected;
+        const comp = componentRef.instance;
+        comp.isSelected = this._allSelected;
+        setTimeout(() => {
+          comp.onCheckedByParent(this._allSelected);
+        }, 30);
         this._drList.push(componentRef.instance);
       }
     });

@@ -27,6 +27,8 @@ export class CheckboxRowComponent extends SimpleRowComponent
   viewContainerRef: ViewContainerRef;
 
   private checkboxComponent: DynamicCheckboxComponent;
+  // tslint:disable-next-line: variable-name
+  private _viewInit = false;
 
   @HostBinding('class.selected')
   @HostBinding('class.text-light')
@@ -56,12 +58,22 @@ export class CheckboxRowComponent extends SimpleRowComponent
     this.checkboxComponent.checked.subscribe((selection: boolean) => {
       this.isSelected = selection;
       this.rowSelected.emit(this.isSelected);
+      this.updateCheckboxState();
+    });
+
+    this.updateCheckboxState();
+    this._viewInit = true;
+  }
+
+  updateCheckboxState() {
+    console.log('Updating checkbox state => ', this.checkboxComponent);
+    if (this.checkboxComponent) {
       if (this.isSelected) {
         this.checkboxComponent.checkedClazz = 'text-light';
       } else {
         this.checkboxComponent.checkedClazz = '';
       }
-    });
+    }
   }
 
   ngOnInit(): void {
@@ -69,7 +81,14 @@ export class CheckboxRowComponent extends SimpleRowComponent
   }
 
   onCheckedByParent(value: boolean) {
-    console.log('On Checked by Parent => ', value);
-    this.checkboxComponent.updateSelection(value);
+    console.log('On Checked by Parent => ', value, ' data => ', this.data);
+    if (this._viewInit) {
+      this.checkboxComponent.updateSelection(value);
+    } else {
+      // call it again after view init... that is retry after 30 milliseconds
+      setTimeout(() => {
+        this.onCheckedByParent(value);
+      }, 30);
+    }
   }
 }
