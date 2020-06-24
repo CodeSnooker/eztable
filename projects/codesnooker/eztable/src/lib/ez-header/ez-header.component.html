@@ -1,7 +1,7 @@
 <!-- <th *ngFor="let item of usableHeaders"> -->
 <!-- {{ item | json }} -->
 
-<th>
+<th *ngIf="enableSelection">
   <ez-dynamic-checkbox #dc (checked)="onChecked($event)"></ez-dynamic-checkbox>
 </th>
 <th

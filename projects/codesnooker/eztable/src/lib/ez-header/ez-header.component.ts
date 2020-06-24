@@ -40,6 +40,8 @@ export class EzHeaderComponent implements OnInit, AfterViewInit {
   /** Final headers to be used by UI  */
   usableHeaders: ITableColumn<any>[];
 
+  @Input() enableSelection: boolean;
+
   @Input() set options(value: ITableOptions) {
     console.log('set options');
     this._options = value;

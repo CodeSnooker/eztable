@@ -63,6 +63,7 @@ export class EztableComponent implements OnInit, AfterViewInit {
   @Input() headers: Array<HeaderType>;
   @Input() rowClass: typeof SimpleRowComponent;
   @Input() enableSearch: boolean;
+  @Input() enableSelection: boolean;
   @Input() searchPlaceholder = '';
   @Output() cancelUpdate = new EventEmitter();
 
@@ -347,9 +348,15 @@ export class EztableComponent implements OnInit, AfterViewInit {
   private loadRows() {
     console.log('#loadRows');
     this._drList = [];
-    const componentFactory = this.cfr.resolveComponentFactory(
-      this.rowClass || CheckboxRowComponent || SimpleRowComponent
+    let componentFactory = this.cfr.resolveComponentFactory(
+      this.rowClass || SimpleRowComponent
     );
+
+    if (this.enableSelection) {
+      componentFactory = this.cfr.resolveComponentFactory(
+        this.rowClass || CheckboxRowComponent
+      );
+    }
 
     console.log('row host => ', this.rowHosts.length);
 
