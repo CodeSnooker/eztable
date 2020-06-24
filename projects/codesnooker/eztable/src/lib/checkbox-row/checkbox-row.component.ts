@@ -38,7 +38,7 @@ export class CheckboxRowComponent extends SimpleRowComponent
   @Output() rowSelected = new EventEmitter<boolean>();
 
   @HostListener('click', ['$event.target'])
-  onClick() {
+  onClick(target: any) {
     console.log('tapped');
     // this.isSelected = !this.isSelected;
     this.checkboxComponent.toggleChecked(undefined);
