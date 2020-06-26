@@ -50,6 +50,8 @@ export class EztableComponent implements OnInit, AfterViewInit {
 
   // tslint:disable-next-line: variable-name
   private _allSelected = false;
+  // tslint:disable-next-line: variable-name
+  private _records: Record<string, any> = {};
 
   headerRightMargin = '0px';
 
@@ -65,6 +67,7 @@ export class EztableComponent implements OnInit, AfterViewInit {
   @Input() enableSearch: boolean;
   @Input() enableSelection: boolean;
   @Input() searchPlaceholder = '';
+  @Input() infoText: string;
   @Output() cancelUpdate = new EventEmitter();
 
   // Emits the recently selected / unselected row
@@ -79,6 +82,9 @@ export class EztableComponent implements OnInit, AfterViewInit {
     this.headerRightMargin = '15px';
     this.bodyHeight = value;
   }
+
+  // tslint:disable-next-line: variable-name
+  private _checklist: any[] = [];
 
   disableClearSearchBtn = true;
 
@@ -97,9 +103,17 @@ export class EztableComponent implements OnInit, AfterViewInit {
   @Input() set data(value: any[]) {
     // console.log('#input');
     this._data = value;
+
+    // Clean up the records
+    this._records = {};
+    this._data.forEach((d, i) => {
+      const key = `d${i}`;
+      this._records[key] = d;
+    });
+
     this.filteredData = value;
 
-    console.log('Headers => ', this.headers);
+    // console.log('Headers => ', this.headers);
 
     if (!this.headers || this.headers.length === 0) {
       this.headers = Object.keys(value[0] || {});
@@ -144,7 +158,7 @@ export class EztableComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    console.log('#ngAfterViewInit');
+    // console.log('#ngAfterViewInit');
     if (this.data && this.rowHosts) {
       setTimeout(() => {
         this.determineWidth();
@@ -161,7 +175,7 @@ export class EztableComponent implements OnInit, AfterViewInit {
   }
 
   private determineWidth() {
-    console.log('determine Width');
+    // console.log('determine Width');
     const percentTable: Record<string, number> = {};
     const headerCount = this._headerKeys?.length || 0;
     let alreadyCountedKeys = 0;
@@ -208,12 +222,12 @@ export class EztableComponent implements OnInit, AfterViewInit {
       sum += widthRecord[k] || 0;
     });
 
-    console.log('Available Width => ', availableWidth);
-    console.log('Width Record => ', widthRecord);
-    console.log('Sum => ', sum);
+    // console.log('Available Width => ', availableWidth);
+    // console.log('Width Record => ', widthRecord);
+    // console.log('Sum => ', sum);
 
     // Ideal distribution
-    console.log('headers => ', this.headers);
+    // console.log('headers => ', this.headers);
 
     const totalKeys = this._headerKeys.length - alreadyCountedKeys;
     let maxWidth = 50;
@@ -328,7 +342,7 @@ export class EztableComponent implements OnInit, AfterViewInit {
   }
 
   selectAll(value: boolean) {
-    console.log('#selectAll => ', this._drList);
+    // console.log('#selectAll => ', this._drList);
 
     this._allSelected = value;
     this._drList.forEach((d) => d.onCheckedByParent(this._allSelected));
@@ -346,7 +360,7 @@ export class EztableComponent implements OnInit, AfterViewInit {
   }
 
   private loadRows() {
-    console.log('#loadRows');
+    // console.log('#loadRows');
     this._drList = [];
     let componentFactory = this.cfr.resolveComponentFactory(
       this.rowClass || SimpleRowComponent
@@ -358,14 +372,14 @@ export class EztableComponent implements OnInit, AfterViewInit {
       );
     }
 
-    console.log('row host => ', this.rowHosts.length);
+    // console.log('row host => ', this.rowHosts.length);
 
     this.rowHosts.forEach((host: RowHostDirective, index: number) => {
       const viewContainerRef = host.viewContainerRef;
       viewContainerRef.clear();
 
       console.log(
-        `Going to assign data (${index}) => `,
+        // `Going to assign data (${index}) => `,
         this.filteredData[index]
       );
       const componentRef = viewContainerRef.createComponent(componentFactory);
@@ -374,7 +388,7 @@ export class EztableComponent implements OnInit, AfterViewInit {
       componentRef.instance.headers = this.usableHeaders;
 
       if (componentRef.instance instanceof CheckboxRowComponent) {
-        console.log('Component is of type CheckboxRowComponent ');
+        // console.log('Component is of type CheckboxRowComponent ');
         const comp = componentRef.instance;
         comp.isSelected = this._allSelected;
         setTimeout(() => {
@@ -382,7 +396,10 @@ export class EztableComponent implements OnInit, AfterViewInit {
           comp.rowSelected.subscribe((d: boolean) => {
             if (d === false) {
               this.ezHeader.uncheckByParent();
+              // this._checklist.
             }
+            const selectedItems = this._drList.filter((dr) => dr.isSelected);
+            this.selectedRowList.next(selectedItems.map((si) => si.data));
           });
         }, 30);
         this._drList.push(componentRef.instance);
@@ -417,7 +434,7 @@ export class EztableComponent implements OnInit, AfterViewInit {
     const compare = (v1: string | number, v2: string | number) =>
       v1 < v2 ? -1 : v1 > v2 ? 1 : 0;
 
-    console.log('sortBy');
+    // console.log('sortBy');
     const result = this.filteredData.sort((a, b) => {
       if (Number.isFinite(a[key]) && Number.isFinite(b[key])) {
         const res = compare(a[key], b[key]);
@@ -434,7 +451,7 @@ export class EztableComponent implements OnInit, AfterViewInit {
       }
     });
 
-    console.log('sorted Data => ', this.filteredData);
-    console.log('result => ', result);
+    // console.log('sorted Data => ', this.filteredData);
+    // console.log('result => ', result);
   }
 }

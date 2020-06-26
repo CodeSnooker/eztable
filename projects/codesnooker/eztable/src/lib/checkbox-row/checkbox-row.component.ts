@@ -26,6 +26,8 @@ export class CheckboxRowComponent extends SimpleRowComponent
   })
   viewContainerRef: ViewContainerRef;
 
+  key: string;
+
   private checkboxComponent: DynamicCheckboxComponent;
   // tslint:disable-next-line: variable-name
   private _viewInit = false;
