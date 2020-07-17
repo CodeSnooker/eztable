@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { ITableColumn, SortDirection } from '@codesnooker/eztable';
 import { USER_DATA } from '../fixtures';
+import {
+  ITableColumn,
+  SortDirection,
+} from './../../../projects/codesnooker/eztable/src/public-api';
 
 @Component({
   selector: 'app-pre-sorted-using-table-column',
@@ -14,6 +17,7 @@ export class PreSortedUsingTableColumnComponent implements OnInit {
       return {
         key: d,
         value: d,
+        noSmartCase: true,
         sortDirection: i === 2 ? SortDirection.ASCENDING : SortDirection.NONE,
       };
     }

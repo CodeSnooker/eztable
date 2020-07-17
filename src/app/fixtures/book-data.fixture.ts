@@ -2,7 +2,7 @@ import { IBook } from '../interfaces/book.interface';
 
 export const BOOK_DATA: IBook[] = [
   {
-    isbn: '9781593275846',
+    ISBN: '9781593275846',
     title: 'Eloquent JavaScript, Second Edition',
     subtitle: 'A Modern Introduction to Programming',
     author: 'Marijn Haverbeke',
@@ -14,7 +14,7 @@ export const BOOK_DATA: IBook[] = [
     website: 'http://eloquentjavascript.net/',
   },
   {
-    isbn: '9781449331818',
+    ISBN: '9781449331818',
     title: 'Learning JavaScript Design Patterns',
     // tslint:disable-next-line: quotemark
     subtitle: "A JavaScript and jQuery Developer's Guide",
@@ -30,7 +30,7 @@ export const BOOK_DATA: IBook[] = [
       'http://www.addyosmani.com/resources/essentialjsdesignpatterns/book/',
   },
   {
-    isbn: '9781449365035',
+    ISBN: '9781449365035',
     title: 'Speaking JavaScript',
     subtitle: 'An In-Depth Guide for Programmers',
     author: 'Axel Rauschmayer',
@@ -43,7 +43,7 @@ export const BOOK_DATA: IBook[] = [
     website: 'http://speakingjs.com/',
   },
   {
-    isbn: '9781491950296',
+    ISBN: '9781491950296',
     title: 'Programming JavaScript Applications',
     subtitle:
       'Robust Web Architecture with Node, HTML5, and Modern JS Libraries',
@@ -58,7 +58,7 @@ export const BOOK_DATA: IBook[] = [
     website: 'http://chimera.labs.oreilly.com/books/1234000000262/index.html',
   },
   {
-    isbn: '9781593277574',
+    ISBN: '9781593277574',
     title: 'Understanding ECMAScript 6',
     subtitle: 'The Definitive Guide for JavaScript Developers',
     author: 'Nicholas C. Zakas',
@@ -70,7 +70,7 @@ export const BOOK_DATA: IBook[] = [
     website: 'https://leanpub.com/understandinges6/read',
   },
   {
-    isbn: '9781491904244',
+    ISBN: '9781491904244',
     // tslint:disable-next-line: quotemark
     title: "You Don't Know JS",
     subtitle: 'ES6 & Beyond',
@@ -87,7 +87,7 @@ export const BOOK_DATA: IBook[] = [
       'https://github.com/getify/You-Dont-Know-JS/tree/master/es6%20&%20beyond',
   },
   {
-    isbn: '9781449325862',
+    ISBN: '9781449325862',
     title: 'Git Pocket Guide',
     subtitle: 'A Working Introduction',
     author: 'Richard E. Silverman',
@@ -100,7 +100,7 @@ export const BOOK_DATA: IBook[] = [
     website: 'http://chimera.labs.oreilly.com/books/1230000000561/index.html',
   },
   {
-    isbn: '9781449337711',
+    ISBN: '9781449337711',
     title: 'Designing Evolvable Web APIs with ASP.NET',
     subtitle: 'Harnessing the Power of the Web',
     author: 'Glenn Block, et al.',

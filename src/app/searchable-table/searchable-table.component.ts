@@ -12,7 +12,7 @@ export class SearchableTableComponent implements OnInit {
   loading = false;
   tableOptions: ITableOptions;
   headers: string[] = [
-    'isbn',
+    'ISBN',
     'title',
     'subtitle',
     'author',

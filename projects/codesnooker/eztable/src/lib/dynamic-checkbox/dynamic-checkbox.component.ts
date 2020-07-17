@@ -64,7 +64,7 @@ export class DynamicCheckboxComponent
 
   writeValue(checked: boolean): void {
     this.value = checked;
-    console.log('value => ', this.value);
+
     // this.onChange(this.value);
   }
 
@@ -107,7 +107,7 @@ export class DynamicCheckboxComponent
 
   updateSelection(value: boolean) {
     const newValue = value;
-    console.log('#updateSelection => ', newValue);
+
     if (!this.disabled) {
       this.writeValue(newValue);
       this.onChange(newValue);

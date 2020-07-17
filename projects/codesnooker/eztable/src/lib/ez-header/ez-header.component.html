@@ -6,11 +6,11 @@
 </th>
 <th
   *ngFor="let item of usableHeaders; let i = index"
-  class="capitalize sortable noselect"
+  class="sortable noselect"
   [ngStyle]="{ width: item.fixWidthValue }"
   (click)="sortBy(item.key, i)"
 >
-  {{ item.value | smartCase }}
+  {{ item.value | smartCase: item.noSmartCase }}
   <span [class]="item.clazz"></span>
 </th>
 

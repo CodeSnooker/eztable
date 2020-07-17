@@ -41,7 +41,6 @@ export class CheckboxRowComponent extends SimpleRowComponent
 
   @HostListener('click', ['$event.target'])
   onClick(target: any) {
-    console.log('tapped');
     // this.isSelected = !this.isSelected;
     this.checkboxComponent.toggleChecked(undefined);
   }
@@ -54,7 +53,6 @@ export class CheckboxRowComponent extends SimpleRowComponent
   }
 
   ngAfterViewInit(): void {
-    console.log('#ngAfterViewInit => ', this.viewContainerRef);
     this.service.setRootViewContainerRef(this.viewContainerRef);
     this.checkboxComponent = this.service.addDynamicComponent();
     this.checkboxComponent.checked.subscribe((selection: boolean) => {
@@ -68,7 +66,6 @@ export class CheckboxRowComponent extends SimpleRowComponent
   }
 
   updateCheckboxState() {
-    console.log('Updating checkbox state => ', this.checkboxComponent);
     if (this.checkboxComponent) {
       if (this.isSelected) {
         this.checkboxComponent.checkedClazz = 'text-light';
@@ -78,12 +75,9 @@ export class CheckboxRowComponent extends SimpleRowComponent
     }
   }
 
-  ngOnInit(): void {
-    console.log('#ngOnInit => ', this.viewContainerRef);
-  }
+  ngOnInit(): void {}
 
   onCheckedByParent(value: boolean) {
-    console.log('On Checked by Parent => ', value, ' data => ', this.data);
     if (this._viewInit) {
       this.checkboxComponent.updateSelection(value);
     } else {

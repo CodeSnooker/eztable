@@ -4,6 +4,9 @@ export interface ITableColumn<T> {
   key: string;
   value: T;
   index?: number;
+  icon?: string;
+  imgIconPath?: string;
+  noSmartCase?: boolean;
   sortDirection?: SortDirection;
   fixWidth?: number;
   fixWidthValue?: string;

@@ -43,7 +43,6 @@ export class EzHeaderComponent implements OnInit, AfterViewInit {
   @Input() enableSelection: boolean;
 
   @Input() set options(value: ITableOptions) {
-    console.log('set options');
     this._options = value;
     this.buildHeaders();
   }
@@ -92,7 +91,6 @@ export class EzHeaderComponent implements OnInit, AfterViewInit {
   ngOnInit(): void {}
 
   onChecked(value: boolean) {
-    console.log('#onChecked => ', value);
     // this.checked = value;
     this.selected.emit(value);
   }
@@ -105,7 +103,6 @@ export class EzHeaderComponent implements OnInit, AfterViewInit {
   // Private Methods
 
   private buildHeaders() {
-    console.log('#buildHeaders');
     if (!this._data) {
       return;
     }
@@ -234,6 +231,5 @@ export class EzHeaderComponent implements OnInit, AfterViewInit {
 
     this.updateHeaderIcons();
     this.sort.next({ key, direction: updatedDirection });
-    console.log(this.usableHeaders);
   }
 }
