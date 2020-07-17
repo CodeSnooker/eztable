@@ -11,7 +11,17 @@
   (click)="sortBy(item.key, i)"
 >
   {{ item.value | smartCase: item.noSmartCase }}
-  <span [class]="item.clazz"></span>
+  <span *ngIf="item.icon">
+    <i-feather [name]="item.icon"></i-feather>
+  </span>
+  <span *ngIf="item.imgIconPath">
+    <img
+      [src]="item.imgIconPath"
+      (error)="updateUrl()"
+      style="width: 24px; height: 24px;"
+    />
+  </span>
+  <span *ngIf="item.sortIconType !== 2" [class]="item.clazz"></span>
 </th>
 
 <!-- </th> -->

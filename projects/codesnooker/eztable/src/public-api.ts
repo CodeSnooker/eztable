@@ -11,3 +11,4 @@ export * from './lib/interfaces/table-options.interface';
 export { SelectCheckboxService } from './lib/select-checkbox.service';
 export { SimpleRowComponent } from './lib/simple-row/simple-row.component';
 export * from './lib/types/sort-direction.enum';
+export { SortIconType } from './lib/types/sort-icon.enum';

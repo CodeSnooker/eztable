@@ -232,4 +232,8 @@ export class EzHeaderComponent implements OnInit, AfterViewInit {
     this.updateHeaderIcons();
     this.sort.next({ key, direction: updatedDirection });
   }
+
+  updateUrl() {
+    console.log('Show default icon');
+  }
 }

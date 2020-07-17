@@ -1,4 +1,5 @@
 import { SortDirection } from '../types/sort-direction.enum';
+import { SortIconType } from '../types/sort-icon.enum';
 
 export interface ITableColumn<T> {
   key: string;
@@ -8,6 +9,7 @@ export interface ITableColumn<T> {
   imgIconPath?: string;
   noSmartCase?: boolean;
   sortDirection?: SortDirection;
+  sortIconType?: SortIconType;
   fixWidth?: number;
   fixWidthValue?: string;
   clazz?: string; // CSS class for sort icon

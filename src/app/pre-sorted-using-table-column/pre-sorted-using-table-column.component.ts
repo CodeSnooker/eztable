@@ -3,6 +3,7 @@ import { USER_DATA } from '../fixtures';
 import {
   ITableColumn,
   SortDirection,
+  SortIconType,
 } from './../../../projects/codesnooker/eztable/src/public-api';
 
 @Component({
@@ -16,9 +17,13 @@ export class PreSortedUsingTableColumnComponent implements OnInit {
     (d, i) => {
       return {
         key: d,
-        value: d,
+        value: i === 2 || i === 1 ? undefined : d,
         noSmartCase: true,
         sortDirection: i === 2 ? SortDirection.ASCENDING : SortDirection.NONE,
+        icon: i === 2 ? 'phone' : undefined,
+        imgIconPath: i === 1 ? '/assets/img-icons/cake.png' : undefined,
+        sortIconType:
+          i === 2 || i === 1 ? SortIconType.HIDDEN : SortIconType.ARROW,
       };
     }
   );
