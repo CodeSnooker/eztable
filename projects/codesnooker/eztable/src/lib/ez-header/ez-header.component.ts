@@ -103,9 +103,11 @@ export class EzHeaderComponent implements OnInit, AfterViewInit {
   // Private Methods
 
   private buildHeaders() {
+    console.log('build headers => ', this._data);
     if (!this._data) {
       return;
     }
+
     const tableOptions: ITableOptions = Object.assign(
       {},
       DEFAULT_TABLE_OPTIONS,
@@ -137,23 +139,6 @@ export class EzHeaderComponent implements OnInit, AfterViewInit {
         if (d.key.localeCompare(tableOptions.sorting.byKey) === 0) {
           d.sortDirection =
             tableOptions.sorting.direction || SortDirection.ASCENDING;
-          // switch (tableOptions.sorting.direction) {
-          //   case SortDirection.ASCENDING: {
-          //     d.sortDirection = SortDirection.DESCENDING;
-          //     break;
-          //   }
-          //   case SortDirection.DESCENDING: {
-          //     d.sortDirection = SortDirection.ASCENDING;
-          //     break;
-          //   }
-          //   case SortDirection.LOCKED: {
-          //     d.sortDirection = SortDirection.LOCKED;
-          //     break;
-          //   }
-          //   default: {
-          //     d.sortDirection = SortDirection.DESCENDING;
-          //   }
-          // }
         }
       });
     }
@@ -210,6 +195,8 @@ export class EzHeaderComponent implements OnInit, AfterViewInit {
   }
 
   sortBy(key: string, index: number) {
+    console.log('#sortBy => ', key, ', index =', index);
+
     // get the direction
     const direction: SortDirection = this.usableHeaders[index].sortDirection;
 

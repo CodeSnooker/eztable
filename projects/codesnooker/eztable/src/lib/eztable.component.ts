@@ -56,6 +56,11 @@ export class EztableComponent implements OnInit, AfterViewInit {
   // tslint:disable-next-line: variable-name
   private _lastSearchedTerm: string;
 
+  // tslint:disable-next-line: variable-name
+  private _registredKey: string;
+  // tslint:disable-next-line: variable-name
+  private _registredDirection: SortDirection;
+
   headerRightMargin = '0px';
 
   bodyHeight = 'auto';
@@ -122,6 +127,8 @@ export class EztableComponent implements OnInit, AfterViewInit {
       this.filteredData = value;
     }
 
+    this.applySortState();
+
     if (!this.headers || this.headers.length === 0) {
       this.headers = Object.keys(value[0] || {});
       this._headerKeys = Object.keys(value[0] || {});
@@ -139,8 +146,8 @@ export class EztableComponent implements OnInit, AfterViewInit {
     if (this._viewInit) {
       setTimeout(() => {
         this.determineWidth();
-        this.loadRows();
         this.preSortCheck();
+        this.loadRows();
         this._viewInit = true;
       }, 10);
     }
@@ -165,8 +172,8 @@ export class EztableComponent implements OnInit, AfterViewInit {
     if (this.data && this.rowHosts) {
       setTimeout(() => {
         this.determineWidth();
-        this.loadRows();
         this.preSortCheck();
+        this.loadRows();
         this.registerForSearchChange();
         this._viewInit = true;
       });
@@ -275,6 +282,15 @@ export class EztableComponent implements OnInit, AfterViewInit {
     }
   }
 
+  private applySortState() {
+    if (this._registredKey) {
+      this.sortBy({
+        key: this._registredKey,
+        direction: this._registredDirection,
+      });
+    }
+  }
+
   private applyDataFilter(val: string, src = []) {
     if (val && val.length > 0) {
       const lVal: string = val.toLowerCase();
@@ -309,6 +325,7 @@ export class EztableComponent implements OnInit, AfterViewInit {
       this._lastSearchedTerm = '';
       this.filteredData = this.data;
       this._readyToReload = false;
+      this.applySortState();
       setTimeout(() => {
         this.loadRows();
       });
@@ -397,6 +414,17 @@ export class EztableComponent implements OnInit, AfterViewInit {
   }
 
   private preSortCheck() {
+    if (this._registredKey) {
+      if (this.usableHeaders) {
+        this.usableHeaders.forEach((h) => {
+          if (h.key === this._registredKey) {
+            h.sortDirection = this._registredDirection;
+          }
+        });
+      }
+      return;
+    }
+
     setTimeout(() => {
       if (this.usableHeaders) {
         this.usableHeaders.forEach((h) => {
@@ -415,6 +443,8 @@ export class EztableComponent implements OnInit, AfterViewInit {
    * Performs the sorting on the dataset based on key and direction specified in the event
    */
   sortBy({ key, direction }: SortEvent) {
+    this._registredKey = key;
+    this._registredDirection = direction;
     const compare = (v1: string | number, v2: string | number) =>
       v1 < v2 ? -1 : v1 > v2 ? 1 : 0;
 
