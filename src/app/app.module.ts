@@ -24,6 +24,7 @@ import { SampleRowComponent } from './sample-row/sample-row.component';
 import { SearchableTableComponent } from './searchable-table/searchable-table.component';
 import { SortableTableComponent } from './sortable-table/sortable-table.component';
 import { StripedRowsComponent } from './striped-rows/striped-rows.component';
+import { LiveFeedComponent } from './live-feed/live-feed.component';
 
 // Select some icons (use an object, not an array)
 const icons = {
@@ -53,6 +54,7 @@ const icons = {
     CheckboxExampleComponent,
     CustomRowCheckboxDemoComponent,
     SampleCheckboxRowComponent,
+    LiveFeedComponent,
   ],
   imports: [
     BrowserModule,

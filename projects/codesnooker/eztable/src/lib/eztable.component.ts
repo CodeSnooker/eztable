@@ -53,6 +53,9 @@ export class EztableComponent implements OnInit, AfterViewInit {
   // tslint:disable-next-line: variable-name
   private _records: Record<string, any> = {};
 
+  // tslint:disable-next-line: variable-name
+  private _lastSearchedTerm: string;
+
   headerRightMargin = '0px';
 
   bodyHeight = 'auto';
@@ -103,6 +106,8 @@ export class EztableComponent implements OnInit, AfterViewInit {
   @Input() set data(value: any[]) {
     this._data = value;
 
+    console.log('#set data');
+
     // Clean up the records
     this._records = {};
     this._data.forEach((d, i) => {
@@ -110,7 +115,12 @@ export class EztableComponent implements OnInit, AfterViewInit {
       this._records[key] = d;
     });
 
-    this.filteredData = value;
+    // Apply the data filter if user has put any
+    if (this._lastSearchedTerm && this._lastSearchedTerm.length > 0) {
+      this.applyDataFilter(this._lastSearchedTerm, value);
+    } else {
+      this.filteredData = value;
+    }
 
     if (!this.headers || this.headers.length === 0) {
       this.headers = Object.keys(value[0] || {});
@@ -265,6 +275,46 @@ export class EztableComponent implements OnInit, AfterViewInit {
     }
   }
 
+  private applyDataFilter(val: string, src = []) {
+    if (val && val.length > 0) {
+      const lVal: string = val.toLowerCase();
+      this.disableClearSearchBtn = false;
+      this.filteredData = src.filter((r, i) => {
+        const values: any[] = Object.values(r);
+        const searchResult = values.some((v) => {
+          if (v) {
+            const t: string = v.toString().toLowerCase();
+            return t.indexOf(lVal) >= 0;
+          } else {
+            return false;
+          }
+        });
+
+        return searchResult;
+      });
+
+      setTimeout(() => {
+        this.loadRows();
+      });
+      if (!this.filteredData || this.filteredData.length === 0) {
+        this._readyToReload = true;
+      } else if (this.filteredData.length > 0 && this._readyToReload) {
+        this._readyToReload = false;
+        setTimeout(() => {
+          this.loadRows();
+        });
+      }
+    } else {
+      this.disableClearSearchBtn = true;
+      this._lastSearchedTerm = '';
+      this.filteredData = this.data;
+      this._readyToReload = false;
+      setTimeout(() => {
+        this.loadRows();
+      });
+    }
+  }
+
   private registerForSearchChange() {
     this.searchForm
       .get('searchValue')
@@ -280,44 +330,8 @@ export class EztableComponent implements OnInit, AfterViewInit {
       .get('searchValue')
       .valueChanges.pipe(debounce(() => timer(3)))
       .subscribe((val: string) => {
-        const lVal: string = val.toLowerCase();
-
-        if (val && val.length > 0) {
-          this.disableClearSearchBtn = false;
-          this.filteredData = this.data.filter((r, i) => {
-            const values: any[] = Object.values(r);
-            const searchResult = values.some((v) => {
-              if (v) {
-                const t: string = v.toString().toLowerCase();
-                return t.indexOf(lVal) >= 0;
-              } else {
-                return false;
-              }
-            });
-
-            return searchResult;
-          });
-
-          setTimeout(() => {
-            this.loadRows();
-          });
-          if (!this.filteredData || this.filteredData.length === 0) {
-            this._readyToReload = true;
-          } else if (this.filteredData.length > 0 && this._readyToReload) {
-            this._readyToReload = false;
-            setTimeout(() => {
-              this.loadRows();
-            });
-          }
-        } else {
-          this.disableClearSearchBtn = true;
-
-          this.filteredData = this.data;
-          this._readyToReload = false;
-          setTimeout(() => {
-            this.loadRows();
-          });
-        }
+        this._lastSearchedTerm = val;
+        this.applyDataFilter(val, this.data);
       });
   }
 

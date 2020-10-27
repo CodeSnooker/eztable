@@ -1,0 +1,37 @@
+<div class="card">
+  <div class="card-header">
+    <h5 class="card-title">Live Feed</h5>
+    <h6 class="card-subtitle text-muted">
+      Data gets automatically updated after every few seconds. Table should
+      maintain the sort order and scroll position on the table
+    </h6>
+
+    <h6 class="card-subtitle text-muted mt-2">
+      Data feed should also not impact the filtered results.
+      <button
+        *ngIf="isPlaying"
+        class="btn btn-danger"
+        (click)="unsubscribeToFeed()"
+      >
+        Stop Feed
+      </button>
+      <button
+        *ngIf="!isPlaying"
+        class="btn btn-success"
+        (click)="subscribeToFeed()"
+      >
+        Start Feed
+      </button>
+      <button class="ml-4 btn btn-primary" (click)="shuffleData()">
+        Force to Shuffle Data
+      </button>
+    </h6>
+  </div>
+  <eztable
+    class="bg-primary p-2"
+    [data]="userData"
+    enableSearch="true"
+    enableSelection="true"
+  >
+  </eztable>
+</div>
