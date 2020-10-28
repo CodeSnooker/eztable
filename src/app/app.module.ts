@@ -16,7 +16,8 @@ import { DisableSortOnColumnComponent } from './disable-sort-on-column/disable-s
 import { DisableSortWithPreSortColumnComponent } from './disable-sort-with-pre-sort-column/disable-sort-with-pre-sort-column.component';
 import { DisableSortingComponent } from './disable-sorting/disable-sorting.component';
 import { HoverableTableComponent } from './hoverable-table/hoverable-table.component';
-import { IntroComponent } from './intro/intro.component';
+import { LiveFeedComponent } from './live-feed/live-feed.component';
+import { NavbarComponent } from './navbar/navbar.component';
 import { PreSortedUsingTableColumnComponent } from './pre-sorted-using-table-column/pre-sorted-using-table-column.component';
 import { PreSortedComponent } from './pre-sorted/pre-sorted.component';
 import { SampleCheckboxRowComponent } from './sample-checkbox-row/sample-checkbox-row.component';
@@ -24,7 +25,6 @@ import { SampleRowComponent } from './sample-row/sample-row.component';
 import { SearchableTableComponent } from './searchable-table/searchable-table.component';
 import { SortableTableComponent } from './sortable-table/sortable-table.component';
 import { StripedRowsComponent } from './striped-rows/striped-rows.component';
-import { LiveFeedComponent } from './live-feed/live-feed.component';
 
 // Select some icons (use an object, not an array)
 const icons = {
@@ -36,7 +36,6 @@ const icons = {
   declarations: [
     AppComponent,
     SampleRowComponent,
-    IntroComponent,
     CustomHeadersComponent,
     StripedRowsComponent,
     CondensedTableComponent,
@@ -55,6 +54,7 @@ const icons = {
     CustomRowCheckboxDemoComponent,
     SampleCheckboxRowComponent,
     LiveFeedComponent,
+    NavbarComponent,
   ],
   imports: [
     BrowserModule,

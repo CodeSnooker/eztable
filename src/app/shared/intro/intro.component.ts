@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { USER_DATA } from '../fixtures';
+import { USER_DATA } from '../../fixtures';
 
 @Component({
   selector: 'app-intro',
