@@ -112,6 +112,11 @@ export class EztableComponent implements OnInit, AfterViewInit {
     this._data = value;
 
     console.log('#set data');
+    this._allSelected = false;
+
+    if (this.ezHeader) {
+      this.ezHeader.uncheckByParent();
+    }
 
     // Clean up the records
     this._records = {};
@@ -354,6 +359,7 @@ export class EztableComponent implements OnInit, AfterViewInit {
 
   selectAll(value: boolean) {
     this._allSelected = value;
+    console.log('All Selected => ', this._allSelected);
     this._drList.forEach((d) => d.onCheckedByParent(this._allSelected));
 
     if (this._allSelected) {
