@@ -44,6 +44,10 @@ const icons = {
     DynamicCheckboxComponent,
     // SelectCheckboxService,
   ],
-  entryComponents: [SimpleRowComponent, DynamicCheckboxComponent],
+  entryComponents: [
+    SimpleRowComponent,
+    DynamicCheckboxComponent,
+    CheckboxRowComponent,
+  ],
 })
 export class EztableModule {}
