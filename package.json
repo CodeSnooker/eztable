@@ -8,6 +8,7 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
+    "docs": "ng build --prod --baseHref='https://codesnooker.github.io/eztable/'",
     "build-lib": "ng build --prod @codesnooker/eztable",
     "npm-pack": "cd dist/codesnooker/eztable && npm pack",
     "package": "npm run build-lib && npm run npm-pack"
