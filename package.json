@@ -11,7 +11,8 @@
     "docs": "ng build --prod --baseHref='https://codesnooker.github.io/eztable/' --deploy-url='https://codesnooker.github.io/eztable/'",
     "build-lib": "ng build --prod @codesnooker/eztable",
     "npm-pack": "cd dist/codesnooker/eztable && npm pack",
-    "package": "npm run build-lib && npm run npm-pack"
+    "package": "npm run build-lib && npm run npm-pack",
+    "push": "git push origin master"
   },
   "private": true,
   "dependencies": {
