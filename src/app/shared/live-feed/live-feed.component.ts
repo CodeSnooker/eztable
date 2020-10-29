@@ -1,6 +1,8 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription, timer } from 'rxjs';
+import { tap } from 'rxjs/operators';
 import { USER_DATA } from '../fixtures';
+import { IPlainUser, LivefeedService } from './livefeed.service';
 
 @Component({
   selector: 'app-live-feed',
@@ -12,17 +14,31 @@ export class LiveFeedComponent implements OnInit, OnDestroy {
   private subscription: Subscription;
   private timerSource = timer(1000, 5000);
 
-  userData = [...this.userDataCopy];
+  userData = [];
   isPlaying: boolean;
-
-  constructor() {}
+  users: IPlainUser[];
+  constructor(private readonly service: LivefeedService) {}
 
   ngOnInit(): void {
     // this.subscribeToFeed();
+    this.requestData();
   }
 
   ngOnDestroy(): void {
     this.unsubscribeToFeed();
+  }
+
+  private requestData() {
+    this.service
+      .getUserList()
+      .pipe(
+        tap((d) => {
+          this.users = d;
+          console.log(this.users);
+          this.userData = this.users;
+        })
+      )
+      .subscribe();
   }
 
   private shuffle(array = []) {
@@ -47,7 +63,8 @@ export class LiveFeedComponent implements OnInit, OnDestroy {
 
   shuffleData() {
     // console.log('Shuffle Data => ', new Date().toLocaleTimeString());
-    this.userData = this.shuffle([...this.userDataCopy]);
+    // this.userData = this.shuffle([...this.userDataCopy]);
+    this.requestData();
   }
 
   subscribeToFeed() {

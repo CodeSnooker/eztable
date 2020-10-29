@@ -1,4 +1,5 @@
 import { CommonModule } from '@angular/common';
+import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { EztableModule } from 'src/../projects/codesnooker/eztable/src/public-api';
 import { AlwaysResponsiveTableComponent } from './always-responsive-table/always-responsive-table.component';
@@ -45,7 +46,7 @@ import { StripedRowsComponent } from './striped-rows/striped-rows.component';
     SampleCheckboxRowComponent,
     LiveFeedComponent,
   ],
-  imports: [CommonModule, EztableModule],
+  imports: [CommonModule, HttpClientModule, EztableModule],
   exports: [
     IntroComponent,
     SampleRowComponent,
