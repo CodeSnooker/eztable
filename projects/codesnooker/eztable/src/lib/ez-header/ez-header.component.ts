@@ -97,13 +97,15 @@ export class EzHeaderComponent implements OnInit, AfterViewInit {
 
   uncheckByParent() {
     // this.checked = false;
-    this.checkbox.markUnSelected(false);
+    if (this.checkbox) {
+      this.checkbox.markUnSelected(false);
+    }
   }
 
   // Private Methods
 
   private buildHeaders() {
-    console.log('build headers => ', this._data);
+    // console.log('build headers => ', this._data);
     if (!this._data) {
       return;
     }

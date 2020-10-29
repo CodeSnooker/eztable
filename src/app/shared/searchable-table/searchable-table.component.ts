@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { ITableOptions } from 'src/../projects/codesnooker/eztable/src/public-api';
 import { BOOK_DATA } from '../fixtures';
-import { ITableOptions } from './../../../projects/codesnooker/eztable/src/public-api';
 
 @Component({
   selector: 'app-searchable-table',

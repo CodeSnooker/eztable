@@ -111,7 +111,7 @@ export class EztableComponent implements OnInit, AfterViewInit {
   @Input() set data(value: any[]) {
     this._data = value;
 
-    console.log('#set data');
+    // console.log('#set data');
     this._allSelected = false;
 
     if (this.ezHeader) {

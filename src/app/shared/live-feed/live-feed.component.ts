@@ -12,13 +12,13 @@ export class LiveFeedComponent implements OnInit, OnDestroy {
   private subscription: Subscription;
   private timerSource = timer(1000, 5000);
 
-  userData = [];
+  userData = [...this.userDataCopy];
   isPlaying: boolean;
 
   constructor() {}
 
   ngOnInit(): void {
-    this.subscribeToFeed();
+    // this.subscribeToFeed();
   }
 
   ngOnDestroy(): void {
@@ -46,7 +46,7 @@ export class LiveFeedComponent implements OnInit, OnDestroy {
   }
 
   shuffleData() {
-    console.log('Shuffle Data => ', new Date().toLocaleTimeString());
+    // console.log('Shuffle Data => ', new Date().toLocaleTimeString());
     this.userData = this.shuffle([...this.userDataCopy]);
   }
 

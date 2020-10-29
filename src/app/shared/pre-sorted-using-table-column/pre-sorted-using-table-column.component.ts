@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { USER_DATA } from '../fixtures';
 import {
   ITableColumn,
   SortDirection,
   SortIconType,
-} from './../../../projects/codesnooker/eztable/src/public-api';
+} from 'src/../projects/codesnooker/eztable/src/public-api';
+import { USER_DATA } from '../fixtures';
 
 @Component({
   selector: 'app-pre-sorted-using-table-column',

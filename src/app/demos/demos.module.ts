@@ -1,14 +1,11 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
+import { NgModule } from '@angular/core';
+import { SharedModule } from '../shared/shared.module';
 import { DemosRoutingModule } from './demos-routing.module';
-
+import { PagesAllDemosComponent } from './pages-all-demos/pages-all-demos.component';
 
 @NgModule({
-  declarations: [],
-  imports: [
-    CommonModule,
-    DemosRoutingModule
-  ]
+  declarations: [PagesAllDemosComponent],
+  imports: [CommonModule, SharedModule, DemosRoutingModule],
 })
-export class DemosModule { }
+export class DemosModule {}
