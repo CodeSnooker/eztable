@@ -425,6 +425,8 @@ export class EztableComponent implements OnInit, AfterViewInit {
         this.usableHeaders.forEach((h) => {
           if (h.key === this._registredKey) {
             h.sortDirection = this._registredDirection;
+          } else {
+            h.sortDirection = SortDirection.NONE;
           }
         });
       }

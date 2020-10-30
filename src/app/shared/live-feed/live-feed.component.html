@@ -27,8 +27,16 @@
       </button>
     </h6>
   </div>
-  <eztable *ngIf="userData" class="bg-primary p-2" [data]="userData"> </eztable>
-  <table class="table table-dark">
+  <span *ngIf="headers">
+    <eztable
+      *ngIf="userData"
+      [headers]="headers"
+      class="bg-primary p-2"
+      [data]="userData"
+    >
+    </eztable>
+  </span>
+  <!-- <table class="table table-dark">
     <thead>
       <tr>
         <th scope="col">id</th>
@@ -49,7 +57,7 @@
         <td>{{ item.website }}</td>
       </tr>
     </tbody>
-  </table>
+  </table> -->
   <!-- <div *ngIf="!userData" class="bg-dark text-light">Warning</div> -->
   <!-- <eztable
     class="bg-primary p-2"

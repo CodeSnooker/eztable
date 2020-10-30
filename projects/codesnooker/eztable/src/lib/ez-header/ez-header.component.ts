@@ -105,7 +105,7 @@ export class EzHeaderComponent implements OnInit, AfterViewInit {
   // Private Methods
 
   private buildHeaders() {
-    // console.log('build headers => ', this._data);
+    console.log('build headers => ', this._data);
     if (!this._data) {
       return;
     }

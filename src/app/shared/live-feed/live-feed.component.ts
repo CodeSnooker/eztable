@@ -1,6 +1,10 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription, timer } from 'rxjs';
 import { tap } from 'rxjs/operators';
+import {
+  ITableColumn,
+  SortDirection,
+} from 'src/../projects/codesnooker/eztable/src/public-api';
 import { USER_DATA } from '../fixtures';
 import { IPlainUser, LivefeedService } from './livefeed.service';
 
@@ -13,8 +17,10 @@ export class LiveFeedComponent implements OnInit, OnDestroy {
   private userDataCopy = [...USER_DATA];
   private subscription: Subscription;
   private timerSource = timer(1000, 5000);
-
   userData = [];
+
+  headers: ITableColumn<string>[];
+
   isPlaying: boolean;
   users: IPlainUser[];
   constructor(private readonly service: LivefeedService) {}
@@ -36,6 +42,17 @@ export class LiveFeedComponent implements OnInit, OnDestroy {
           this.users = d;
           console.log(this.users);
           this.userData = this.users;
+          if (!this.headers) {
+            this.headers = Object.keys(this.userData[0]).map((x, i) => {
+              return {
+                key: x,
+                value: i === 2 || i === 1 ? undefined : x,
+                noSmartCase: true,
+                sortDirection:
+                  i === 2 ? SortDirection.ASCENDING : SortDirection.NONE,
+              };
+            });
+          }
         })
       )
       .subscribe();
