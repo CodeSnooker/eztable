@@ -105,7 +105,7 @@ export class EzHeaderComponent implements OnInit, AfterViewInit {
   // Private Methods
 
   private buildHeaders() {
-    console.log('build headers => ', this._data);
+    // console.log('build headers => ', this._data);
     if (!this._data) {
       return;
     }
@@ -197,7 +197,7 @@ export class EzHeaderComponent implements OnInit, AfterViewInit {
   }
 
   sortBy(key: string, index: number) {
-    console.log('#sortBy => ', key, ', index =', index);
+    // console.log('#sortBy => ', key, ', index =', index);
 
     // get the direction
     const direction: SortDirection = this.usableHeaders[index].sortDirection;
@@ -223,6 +223,6 @@ export class EzHeaderComponent implements OnInit, AfterViewInit {
   }
 
   updateUrl() {
-    console.log('Show default icon');
+    // console.log('Show default icon');
   }
 }

@@ -40,7 +40,7 @@ export class LiveFeedComponent implements OnInit, OnDestroy {
       .pipe(
         tap((d) => {
           this.users = d;
-          console.log(this.users);
+          // console.log(this.users);
           this.userData = this.users;
           if (!this.headers) {
             this.headers = Object.keys(this.userData[0]).map((x, i) => {
