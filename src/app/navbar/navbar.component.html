@@ -25,9 +25,18 @@
         </button> -->
     </form>
     <div class="flex mt-8">
-      <a class="text-light mx-2 mt-8">Home</a>
-      <a class="text-light mx-2">Docs</a>
-      <a class="text-light mx-2">Github</a>
+      <a class="text-light mx-2 mt-8 cursor-pointer" [routerLink]="['/']"
+        >Home</a
+      >
+      <a class="text-light mx-2" [routerLink]="['/docs']">Docs</a>
+      <a class="text-light mx-2" [routerLink]="['/demos']">Demos</a>
+      <a
+        class="text-light mx-2"
+        href="https://github.com/CodeSnooker/eztable"
+        target="_blank"
+      >
+        Github
+      </a>
     </div>
   </div>
 </nav>
